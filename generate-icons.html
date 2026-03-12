@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head><title>Icon Generator</title>
+<style>
+  body { background: #111; color: #eee; font-family: system-ui; display: flex; flex-direction: column; align-items: center; padding: 40px; gap: 20px; }
+  .row { display: flex; gap: 30px; align-items: end; }
+  .icon-box { text-align: center; }
+  canvas { border: 1px solid #333; border-radius: 8px; }
+  p { margin: 6px 0 0; font-size: 13px; color: #888; }
+  button { margin-top: 20px; padding: 12px 32px; background: #10b981; color: #000; font-weight: 700; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; }
+  button:hover { background: #22d3a0; }
+  .note { color: #666; font-size: 12px; max-width: 500px; text-align: center; margin-top: 10px; }
+</style>
+</head>
+<body>
+<h2>Developer New Tab — Icon Generator</h2>
+<div class="row">
+  <div class="icon-box"><canvas id="c128" width="128" height="128"></canvas><p>128×128</p></div>
+  <div class="icon-box"><canvas id="c48" width="48" height="48"></canvas><p>48×48</p></div>
+  <div class="icon-box"><canvas id="c16" width="16" height="16"></canvas><p>16×16</p></div>
+</div>
+<button onclick="downloadAll()">⬇ Download All Icons</button>
+<p class="note">Icons are saved to your Downloads folder. Move them to <code>demo/icons/</code> replacing the existing files.</p>
+
+<script>
+function drawIcon(canvas) {
+  const s = canvas.width;
+  const ctx = canvas.getContext('2d');
+  const u = s / 128; // unit scale
+
+  // === Background: rounded dark square with subtle gradient ===
+  const r = 24 * u;
+  ctx.beginPath();
+  ctx.moveTo(r, 0);
+  ctx.lineTo(s - r, 0);
+  ctx.quadraticCurveTo(s, 0, s, r);
+  ctx.lineTo(s, s - r);
+  ctx.quadraticCurveTo(s, s, s - r, s);
+  ctx.lineTo(r, s);
+  ctx.quadraticCurveTo(0, s, 0, s - r);
+  ctx.lineTo(0, r);
+  ctx.quadraticCurveTo(0, 0, r, 0);
+  ctx.closePath();
+
+  // Dark gradient background
+  const bg = ctx.createLinearGradient(0, 0, s, s);
+  bg.addColorStop(0, '#0a0e17');
+  bg.addColorStop(0.5, '#0d1220');
+  bg.addColorStop(1, '#060a12');
+  ctx.fillStyle = bg;
+  ctx.fill();
+
+  // Subtle border glow
+  ctx.strokeStyle = 'rgba(16, 185, 129, 0.35)';
+  ctx.lineWidth = 1.5 * u;
+  ctx.stroke();
+
+  // === Inner glow at top-left ===
+  const glow = ctx.createRadialGradient(20 * u, 20 * u, 0, 30 * u, 30 * u, 70 * u);
+  glow.addColorStop(0, 'rgba(16, 185, 129, 0.12)');
+  glow.addColorStop(1, 'transparent');
+  ctx.fillStyle = glow;
+  ctx.fill();
+
+  // === Terminal window bar (3 dots) ===
+  const dotY = 22 * u;
+  const dotR = 3.2 * u;
+  const dotStart = 20 * u;
+  const dotGap = 10 * u;
+  // Red
+  ctx.beginPath(); ctx.arc(dotStart, dotY, dotR, 0, Math.PI * 2);
+  ctx.fillStyle = '#ef4444'; ctx.fill();
+  // Yellow
+  ctx.beginPath(); ctx.arc(dotStart + dotGap, dotY, dotR, 0, Math.PI * 2);
+  ctx.fillStyle = '#fbbf24'; ctx.fill();
+  // Green
+  ctx.beginPath(); ctx.arc(dotStart + dotGap * 2, dotY, dotR, 0, Math.PI * 2);
+  ctx.fillStyle = '#22d3a0'; ctx.fill();
+
+  // === Horizontal line below dots ===
+  ctx.beginPath();
+  ctx.moveTo(14 * u, 32 * u);
+  ctx.lineTo(114 * u, 32 * u);
+  const lineGrad = ctx.createLinearGradient(14 * u, 0, 114 * u, 0);
+  lineGrad.addColorStop(0, 'rgba(16, 185, 129, 0.5)');
+  lineGrad.addColorStop(0.5, 'rgba(96, 165, 250, 0.4)');
+  lineGrad.addColorStop(1, 'rgba(167, 139, 250, 0.3)');
+  ctx.strokeStyle = lineGrad;
+  ctx.lineWidth = 1 * u;
+  ctx.stroke();
+
+  // === Prompt symbol: > _ ===
+  ctx.font = `bold ${32 * u}px "Courier New", monospace`;
+  const promptGrad = ctx.createLinearGradient(18 * u, 50 * u, 72 * u, 90 * u);
+  promptGrad.addColorStop(0, '#22d3a0');
+  promptGrad.addColorStop(1, '#10b981');
+  ctx.fillStyle = promptGrad;
+  ctx.fillText('>', 18 * u, 68 * u);
+
+  // Blinking cursor bar
+  ctx.fillStyle = '#fbbf24';
+  ctx.fillRect(50 * u, 52 * u, 3 * u, 20 * u);
+
+  // === Code lines (decorative) ===
+  const lineColors = [
+    { w: 52, c: 'rgba(96, 165, 250, 0.6)' },
+    { w: 38, c: 'rgba(167, 139, 250, 0.5)' },
+    { w: 60, c: 'rgba(16, 185, 129, 0.5)' },
+  ];
+
+  lineColors.forEach((line, i) => {
+    const ly = (82 + i * 12) * u;
+    const lx = 22 * u;
+
+    // Small dot before each line
+    ctx.beginPath();
+    ctx.arc(lx, ly + 2.5 * u, 1.8 * u, 0, Math.PI * 2);
+    ctx.fillStyle = line.c;
+    ctx.fill();
+
+    // Code line
+    ctx.beginPath();
+    ctx.moveTo((lx + 6 * u), ly);
+    ctx.lineTo((lx + 6 * u) + line.w * u, ly);
+    ctx.strokeStyle = line.c;
+    ctx.lineWidth = 4 * u;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+  });
+
+  // === Accent corner bracket at bottom-right ===
+  ctx.strokeStyle = 'rgba(251, 191, 36, 0.55)';
+  ctx.lineWidth = 2.5 * u;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  // Right bracket shape: }
+  ctx.beginPath();
+  ctx.moveTo(90 * u, 48 * u);
+  ctx.lineTo(96 * u, 48 * u);
+  ctx.lineTo(96 * u, 62 * u);
+  ctx.lineTo(102 * u, 66 * u);
+  ctx.lineTo(96 * u, 70 * u);
+  ctx.lineTo(96 * u, 84 * u);
+  ctx.lineTo(90 * u, 84 * u);
+  ctx.stroke();
+
+  // === Bottom glow accent ===
+  const bottomGlow = ctx.createRadialGradient(90 * u, 110 * u, 0, 90 * u, 110 * u, 40 * u);
+  bottomGlow.addColorStop(0, 'rgba(251, 191, 36, 0.08)');
+  bottomGlow.addColorStop(1, 'transparent');
+  ctx.fillStyle = bottomGlow;
+  ctx.beginPath();
+  ctx.arc(90 * u, 110 * u, 40 * u, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+// Draw all sizes
+['c128', 'c48', 'c16'].forEach(id => {
+  drawIcon(document.getElementById(id));
+});
+
+function downloadAll() {
+  [{ id: 'c128', name: 'icon128.png' }, { id: 'c48', name: 'icon48.png' }, { id: 'c16', name: 'icon16.png' }].forEach(({ id, name }) => {
+    const link = document.createElement('a');
+    link.download = name;
+    link.href = document.getElementById(id).toDataURL('image/png');
+    link.click();
+  });
+}
+</script>
+</body>
+</html>

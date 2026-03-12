@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Developer New Tab",
+  "description": "A sleek developer productivity dashboard for your new tab. Real-time GitHub stats, LeetCode progress tracking, multi-engine search, contribution heatmap, notepad & more.",
+  "version": "1.0.0",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": ["storage", "system.cpu", "system.memory"],
+  "host_permissions": [
+    "https://github.com/*",
+    "https://api.github.com/*",
+    "https://leetcode.com/*",
+    "https://alfa-leetcode-api.onrender.com/*",
+    "https://leetcode-stats-api.herokuapp.com/*",
+    "https://api.open-meteo.com/*",
+    "https://corsproxy.io/*",
+    "https://api.allorigins.win/*",
+    "https://cors-anywhere.herokuapp.com/*",
+    "https://wakatime.com/*"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com"
+  }
+}
