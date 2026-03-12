@@ -500,19 +500,18 @@ function renderHeatmap(cmap) {
     const total = Object.values(cmap).reduce((s, v) => s + v, 0);
     const today = new Date();
 
-    // Build weeks
+    // Build weeks — end on today, start from the Sunday 52 weeks ago
     const end = new Date(today);
-    while (end.getDay() !== 6) end.setDate(end.getDate() - 1);
-    const start = new Date(end);
-    start.setDate(start.getDate() - 52 * 7 - 6);
+    const start = new Date(today);
+    start.setDate(start.getDate() - 52 * 7 - start.getDay());
 
     const weeks = [];
     let cur = new Date(start);
     while (cur <= end) {
         const w = [];
-        for (let d = 0; d < 7; d++) {
+        for (let d = 0; d < 7 && cur <= end; d++) {
             const ds = cur.toISOString().split('T')[0];
-            w.push({ date: ds, count: cmap[ds] || 0, future: cur > today });
+            w.push({ date: ds, count: cmap[ds] || 0, future: false });
             cur.setDate(cur.getDate() + 1);
         }
         weeks.push(w);
