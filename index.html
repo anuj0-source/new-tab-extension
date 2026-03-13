@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,323 +8,450 @@
   <link rel="icon" type="image/png" href="icons/icon48.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&family=Syne:wght@400;700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- Background Effects -->
-<canvas id="bg-canvas"></canvas>
-<div class="ambient"></div>
-<div class="grid-bg"></div>
-<div class="scanlines"></div>
-<div class="tooltip" id="tt"></div>
+  <!-- Background Effects -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="ambient"></div>
+  <div class="grid-bg"></div>
+  <div class="scanlines"></div>
+  <div class="tooltip" id="tt"></div>
 
-<div id="app">
+  <div id="app">
 
-<!-- ═══ TOP BAR ═══ -->
-<header id="topbar">
-  <div class="tb-l">
-    <div class="tb-prompt">
-      <span class="u" id="tb-user">user</span><span class="tb-sep">@</span><span class="h">localhost</span><span class="tb-sep">:</span><span class="p">~/dashboard</span><span class="sym">$</span>
-      <span class="tb-session">session=<span class="tb-sid" id="sid">…</span></span>
-    </div>
-  </div>
-  <div class="tb-r">
-    <div class="chip speed-chip">
-      <svg class="speed-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V4"/><path d="m5 11 7-7 7 7"/></svg>
-      <span class="speed-up" id="speed-up">0 Kb/s</span>
-      <svg class="speed-icon speed-down-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16"/><path d="m5 13 7 7 7-7"/></svg>
-      <span class="speed-down" id="speed-down">0 Kb/s</span>
-    </div>
-    <div class="chip"><div class="dot-g"></div><span id="tb-tz">UTC</span></div>
-    <div class="chip"><div class="dot-y"></div>node v20</div>
-    <div id="tbclock">00:00:00</div>
-  </div>
-</header>
-
-<!-- ═══ MAIN GRID ═══ -->
-<main id="main">
-
-  <!-- ── COLUMN 1 ── -->
-  <div class="col col-left">
-
-  <!-- Clock -->
-  <div class="card clock-card">
-    <div class="ca y"></div>
-    <div class="ch">
-      <div class="ct">⏱ system time</div>
-      <div class="badge-y" id="tz-badge">…</div>
-    </div>
-    <div class="greeting-wrap">
-      <div class="greeting" id="greeting">Good evening</div>
-      <div class="greeting-name" id="greeting-name" title="Click to change name">developer</div>
-    </div>
-    <div class="clock-main">
-      <div class="clock-digits">
-        <div class="clock-time" id="chm">00:00</div>
-        <div class="clock-sec" id="cs">:00</div>
-      </div>
-      <div class="clock-date" id="cdate">loading…</div>
-      <div class="clock-weather" id="clock-weather">
-        <span class="cw-icon" id="weather-icon">--</span>
-        <span class="cw-temp" id="weather-temp">--°</span>
-        <span class="cw-sep">·</span>
-        <span class="cw-desc" id="weather-desc">loading…</span>
-        <span class="cw-loc" id="weather-loc"></span>
-      </div>
-    </div>
-    <div class="clock-meta">
-      <div class="cb">session <span id="upt">00:00</span></div>
-      <div class="cb">week <span id="wk">--</span></div>
-    </div>
-  </div>
-
-  <!-- GitHub Profile -->
-  <div class="card gh-card">
-    <div class="ca b"></div>
-    <div class="ch">
-      <div class="ct"><svg class="gh-title-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg> github profile</div>
-      <div id="gh-sb"></div>
-    </div>
-    <div id="gh-setup">
-      <p class="gh-setup-text">Enter your GitHub username to load<br>real commit activity &amp; stats</p>
-      <div class="flex-row">
-        <input class="gh-input" id="ghu" placeholder="e.g. torvalds" autocomplete="off"/>
-        <button class="btn-p" id="gh-btn">Load</button>
-      </div>
-    </div>
-    <div id="gh-prof" class="hidden">
-      <div class="gh-header">
-        <img class="gh-avatar" id="gh-av" src="" alt="GitHub avatar">
-        <div>
-          <div class="gh-name" id="gh-nm">—</div>
-          <div class="gh-login" id="gh-lg">@—</div>
-          <div class="gh-bio-text" id="gh-bio"></div>
+    <!-- ═══ TOP BAR ═══ -->
+    <header id="topbar">
+      <div class="tb-l">
+        <div class="tb-prompt">
+          <span class="u" id="tb-user">user</span><span class="tb-sep">@</span><span class="h">localhost</span><span
+            class="tb-sep">:</span><span class="p">~/dashboard</span><span class="sym">$</span>
+          <span class="tb-session">session=<span class="tb-sid" id="sid">…</span></span>
         </div>
       </div>
-      <div class="gh-stats">
-        <div class="gh-stat"><div class="gh-stat-v" id="gh-repos">—</div><div class="gh-stat-k">repos</div></div>
-        <div class="gh-stat"><div class="gh-stat-v" id="gh-fol">—</div><div class="gh-stat-k">followers</div></div>
-        <div class="gh-stat"><div class="gh-stat-v" id="gh-fng">—</div><div class="gh-stat-k">following</div></div>
-      </div>
-      <div class="hr"></div>
-      <div id="gh-langs"></div>
-      <button class="btn-p btn-reset" id="gh-reset-btn">↺ change user</button>
-    </div>
-  </div>
-
-  <!-- Quick Links -->
-  <div class="card links-card">
-    <div class="ca p"></div>
-    <div class="ch">
-      <div class="ct">⬢ bookmarks</div>
-      <div class="sub-label">open in new tab</div>
-    </div>
-    <div class="links-grid">
-      <a class="li" href="https://github.com" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-gh"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></div><div class="li-text">GitHub</div></a>
-      <a class="li" href="https://leetcode.com" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-lc"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 00-.961.438L7.116 6.226l-3.854 4.126a5.27 5.27 0 00-1.209 2.104 5.35 5.35 0 00-.125.513 5.527 5.527 0 00.062 2.362 5.83 5.83 0 00.349 1.017 5.938 5.938 0 001.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 00-1.951-.003l-2.396 2.392a3.021 3.021 0 01-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 01.066-.523 2.545 2.545 0 01.619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 00-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0013.483 0zm-2.866 12.815a1.38 1.38 0 00-1.38 1.382 1.38 1.38 0 001.38 1.382H20.79a1.38 1.38 0 001.38-1.382 1.38 1.38 0 00-1.38-1.382z"/></svg></div><div class="li-text">LeetCode</div></a>
-      <a class="li" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-so"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M15.725 0l-1.72 1.277 6.39 8.588 1.716-1.277zm-3.94 3.418l-1.369 1.644 8.225 6.85 1.369-1.644zm-3.15 4.465l-.905 1.94 9.702 4.517.904-1.94zm-1.85 4.86l-.44 2.093 10.473 2.201.44-2.092zM1.89 15.47V24h19.19v-8.53h-2.133v6.397H4.021v-6.396zm4.265 2.133v2.13h10.66v-2.13z"/></svg></div><div class="li-text">Stack Overflow</div></a>
-      <a class="li" href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-mdn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div class="li-text">MDN</div></a>
-      <a class="li" href="https://npmjs.com" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-npm"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323h13.837v13.629h-3.502V8.647h-3.348v10.305H5.13z"/></svg></div><div class="li-text">npm</div></a>
-      <a class="li" href="https://devdocs.io" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-dd"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div class="li-text">DevDocs</div></a>
-      <a class="li" href="https://codeforces.com" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-cf"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.5 7.5A1.5 1.5 0 016 9v10.5a1.5 1.5 0 01-1.5 1.5h-3A1.5 1.5 0 010 19.5V9a1.5 1.5 0 011.5-1.5zm9-4.5A1.5 1.5 0 0115 4.5v15a1.5 1.5 0 01-1.5 1.5h-3A1.5 1.5 0 019 19.5v-15A1.5 1.5 0 0110.5 3zm9 7.5A1.5 1.5 0 0124 12v7.5a1.5 1.5 0 01-1.5 1.5h-3a1.5 1.5 0 01-1.5-1.5V12a1.5 1.5 0 011.5-1.5z"/></svg></div><div class="li-text">Codeforces</div></a>
-      <a class="li" href="https://vercel.com" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-vc"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L24 22H0z"/></svg></div><div class="li-text">Vercel</div></a>
-    </div>
-  </div>
-
-  </div><!-- /col-left -->
-
-  <!-- ── COLUMN 2 ── -->
-  <div class="col col-center">
-
-  <!-- Search -->
-  <div class="card search-card">
-    <div class="ca g"></div>
-    <div class="ch">
-      <div class="ct">⌕ search</div>
-      <div class="eng-display" id="eng-active">google</div>
-    </div>
-    <div class="sf">
-      <div class="eng-badge" id="eng-badge">
-        <span class="eng-badge-icon" id="eng-icon"></span>
-        <span id="eng-name">Google</span>
-      </div>
-      <input type="text" id="searchInput" placeholder="search or enter URL…" autocomplete="off" spellcheck="false"/>
-      <button class="s-go" id="s-go">↵</button>
-    </div>
-    <div class="epills" id="epills"></div>
-  </div>
-
-  <!-- Contribution Heatmap -->
-  <div class="card contrib-card">
-    <div class="ca g"></div>
-    <div class="ch">
-      <div class="ct">◼ commit activity</div>
-      <div class="contrib-hdr-r">
-        <div class="contrib-label" id="contrib-user-label"></div>
-      </div>
-    </div>
-    <div id="contrib-content">
-      <div class="ls contrib-empty">
-        <span class="contrib-hint">Load a GitHub profile ← to see real commit history</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scratch Pad -->
-  <div class="card term-card">
-    <div class="ca p"></div>
-    <div class="ch">
-      <div class="ct">▸ scratch pad</div>
-      <div class="auto-label">auto-saved</div>
-    </div>
-    <div class="nw">
-      <div class="nl" id="lnums">1</div>
-      <textarea id="notepad" rows="6" placeholder="// notes, snippets, todos...&#10;const ideas = []"></textarea>
-    </div>
-  </div>
-
-  </div><!-- /col-center -->
-
-  <!-- ── COLUMN 3 ── -->
-  <div class="col col-right">
-
-  <!-- LeetCode Progress -->
-  <div class="card lc-card">
-    <div class="ca y"></div>
-    <div class="ch">
-      <div class="ct"><svg class="lc-title-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 00-.961.438L7.116 6.226l-3.854 4.126a5.27 5.27 0 00-1.209 2.104 5.35 5.35 0 00-.125.513 5.527 5.527 0 00.062 2.362 5.83 5.83 0 00.349 1.017 5.938 5.938 0 001.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 00-1.951-.003l-2.396 2.392a3.021 3.021 0 01-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 01.066-.523 2.545 2.545 0 01.619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 00-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0013.483 0zm-2.866 12.815a1.38 1.38 0 00-1.38 1.382 1.38 1.38 0 001.38 1.382H20.79a1.38 1.38 0 001.38-1.382 1.38 1.38 0 00-1.38-1.382z"/></svg> leetcode progress</div>
-      <div id="lc-sb"></div>
-    </div>
-    <div id="lc-setup">
-      <p class="lc-setup-text">Enter your LeetCode username</p>
-      <div class="flex-row">
-        <input class="lc-input" id="lc-username" placeholder="e.g. neal_wu" autocomplete="off"/>
-        <button class="btn-lc" id="lc-btn">Load</button>
-      </div>
-    </div>
-    <div id="lc-prof" class="hidden">
-      <!-- Ring + Total -->
-      <div class="lc-ring-wrap">
-        <div class="lc-ring-el" id="lc-ring"></div>
-        <div class="lc-ring-center">
-          <div class="lc-ring-num" id="lc-ring-total">0</div>
-          <div class="lc-ring-label">solved</div>
-        </div>
-      </div>
-      <!-- Stats -->
-      <div class="lc-stats">
-        <div class="lc-stat"><div class="lc-stat-v total" id="lc-total">—</div><div class="lc-stat-k">total</div></div>
-        <div class="lc-stat"><div class="lc-stat-v lc-stat-rank" id="lc-rank">—</div><div class="lc-stat-k">rank</div></div>
-        <div class="lc-stat"><div class="lc-stat-v lc-stat-accept" id="lc-accept">—</div><div class="lc-stat-k">accept %</div></div>
-        <div class="lc-stat"><div class="lc-stat-v lc-stat-rep" id="lc-rep">—</div><div class="lc-stat-k">reputation</div></div>
-      </div>
-      <!-- Progress Bars -->
-      <div class="lc-prog-row">
-        <div class="lc-prog-top">
-          <div class="lc-prog-label"><span class="ldot lc-dot-easy"></span> Easy</div>
-          <div class="lc-prog-val easy" id="lc-easy-count">—</div>
-        </div>
-        <div class="lc-prog-bar"><div class="lc-prog-fill easy" id="lc-easy-bar"></div></div>
-      </div>
-      <div class="lc-prog-row">
-        <div class="lc-prog-top">
-          <div class="lc-prog-label"><span class="ldot lc-dot-med"></span> Medium</div>
-          <div class="lc-prog-val med" id="lc-med-count">—</div>
-        </div>
-        <div class="lc-prog-bar"><div class="lc-prog-fill med" id="lc-med-bar"></div></div>
-      </div>
-      <div class="lc-prog-row">
-        <div class="lc-prog-top">
-          <div class="lc-prog-label"><span class="ldot lc-dot-hard"></span> Hard</div>
-          <div class="lc-prog-val hard" id="lc-hard-count">—</div>
-        </div>
-        <div class="lc-prog-bar"><div class="lc-prog-fill hard" id="lc-hard-bar"></div></div>
-      </div>
-      <div class="lc-user-text" id="lc-user-label"></div>
-      <button class="btn-lc btn-lc-reset" id="lc-reset-btn">↺ change user</button>
-    </div>
-  </div>
-
-
-  <!-- WakaTime Coding Stats -->
-  <div class="card waka-card">
-    <div class="ca g"></div>
-    <div class="ch">
-      <div class="ct">⏱ coding stats</div>
-      <div id="waka-sb"></div>
-    </div>
-    <div id="waka-setup">
-      <p class="waka-setup-text">Enter your WakaTime API key<br><span class="waka-hint">Settings → API Key on wakatime.com</span></p>
-      <div class="flex-row">
-        <input class="waka-input" id="waka-key" type="password" placeholder="waka_xxxx…" autocomplete="off"/>
-        <button class="btn-waka" id="waka-btn">Load</button>
-      </div>
-    </div>
-    <div id="waka-prof" class="hidden">
-      <div class="waka-hero">
-        <div class="waka-ring-wrap">
-          <svg class="waka-ring-svg" viewBox="0 0 120 120">
-            <defs><linearGradient id="wakaGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fde68a"/><stop offset="50%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient></defs>
-            <circle class="waka-ring-track" cx="60" cy="60" r="52"/>
-            <circle class="waka-ring-fill" id="waka-ring-fill" cx="60" cy="60" r="52"/>
+      <div class="tb-r">
+        <div class="chip speed-chip">
+          <svg class="speed-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20V4" />
+            <path d="m5 11 7-7 7 7" />
           </svg>
-          <div class="waka-ring-center">
-            <div class="waka-ring-val" id="waka-today-time">0m</div>
-            <div class="waka-ring-sub">today</div>
+          <span class="speed-up" id="speed-up">0 Kb/s</span>
+          <svg class="speed-icon speed-down-icon" width="11" height="11" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 4v16" />
+            <path d="m5 13 7 7 7-7" />
+          </svg>
+          <span class="speed-down" id="speed-down">0 Kb/s</span>
+        </div>
+        <div class="chip">
+          <div class="dot-g"></div><span id="tb-tz">UTC</span>
+        </div>
+        <div class="chip">
+          <div class="dot-y"></div>node v20
+        </div>
+        <div id="tbclock">00:00:00</div>
+      </div>
+    </header>
+
+    <!-- ═══ MAIN GRID ═══ -->
+    <main id="main">
+
+      <!-- ── COLUMN 1 ── -->
+      <div class="col col-left">
+
+        <!-- Clock -->
+        <div class="card clock-card">
+          <div class="ca y"></div>
+          <div class="ch">
+            <div class="ct">⏱ system time</div>
+            <div class="badge-y" id="tz-badge">…</div>
+          </div>
+          <div class="greeting-wrap">
+            <div class="greeting" id="greeting">Good evening</div>
+            <div class="greeting-name" id="greeting-name" title="Click to change name">developer</div>
+          </div>
+          <div class="clock-main">
+            <div class="clock-digits">
+              <div class="clock-time" id="chm">00:00</div>
+              <div class="clock-sec" id="cs">:00</div>
+            </div>
+            <div class="clock-date" id="cdate">loading…</div>
+            <div class="clock-weather" id="clock-weather">
+              <span class="cw-icon" id="weather-icon">--</span>
+              <span class="cw-temp" id="weather-temp">--°</span>
+              <span class="cw-sep">·</span>
+              <span class="cw-desc" id="weather-desc">loading…</span>
+              <span class="cw-loc" id="weather-loc"></span>
+            </div>
+          </div>
+          <div class="clock-meta">
+            <div class="cb">session <span id="upt">00:00</span></div>
+            <div class="cb">week <span id="wk">--</span></div>
           </div>
         </div>
-        <div class="waka-week-total">
-          <div class="waka-week-num" id="waka-week-total">0h</div>
-          <div class="waka-week-sub">this week</div>
+
+        <!-- GitHub Profile -->
+        <div class="card gh-card">
+          <div class="ca b"></div>
+          <div class="ch">
+            <div class="ct"><svg class="gh-title-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+              </svg> github profile</div>
+            <div id="gh-sb"></div>
+          </div>
+          <div id="gh-setup">
+            <p class="gh-setup-text">Enter your GitHub username to load<br>real commit activity &amp; stats</p>
+            <div class="flex-row">
+              <input class="gh-input" id="ghu" placeholder="e.g. torvalds" autocomplete="off" />
+              <button class="btn-p" id="gh-btn">Load</button>
+            </div>
+          </div>
+          <div id="gh-prof" class="hidden">
+            <div class="gh-header">
+              <img class="gh-avatar" id="gh-av" src="" alt="GitHub avatar">
+              <div>
+                <div class="gh-name" id="gh-nm">—</div>
+                <div class="gh-login" id="gh-lg">@—</div>
+                <div class="gh-bio-text" id="gh-bio"></div>
+              </div>
+            </div>
+            <div class="gh-stats">
+              <div class="gh-stat">
+                <div class="gh-stat-v" id="gh-repos">—</div>
+                <div class="gh-stat-k">repos</div>
+              </div>
+              <div class="gh-stat">
+                <div class="gh-stat-v" id="gh-fol">—</div>
+                <div class="gh-stat-k">followers</div>
+              </div>
+              <div class="gh-stat">
+                <div class="gh-stat-v" id="gh-fng">—</div>
+                <div class="gh-stat-k">following</div>
+              </div>
+            </div>
+            <div class="hr"></div>
+            <div id="gh-langs"></div>
+            <button class="btn-p btn-reset" id="gh-reset-btn">↺ change user</button>
+          </div>
         </div>
+
+        <!-- Quick Links -->
+        <div class="card links-card">
+          <div class="ca p"></div>
+          <div class="ch">
+            <div class="ct">⬢ bookmarks</div>
+            <div class="sub-label">open in new tab</div>
+          </div>
+          <div class="links-grid">
+            <a class="li" href="https://github.com" target="_blank" rel="noopener noreferrer">
+              <div class="li-icon li-icon-gh"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                </svg></div>
+              <div class="li-text">GitHub</div>
+            </a>
+            <a class="li" href="https://leetcode.com" target="_blank" rel="noopener noreferrer">
+              <div class="li-icon li-icon-lc"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M13.483 0a1.374 1.374 0 00-.961.438L7.116 6.226l-3.854 4.126a5.27 5.27 0 00-1.209 2.104 5.35 5.35 0 00-.125.513 5.527 5.527 0 00.062 2.362 5.83 5.83 0 00.349 1.017 5.938 5.938 0 001.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 00-1.951-.003l-2.396 2.392a3.021 3.021 0 01-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 01.066-.523 2.545 2.545 0 01.619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 00-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0013.483 0zm-2.866 12.815a1.38 1.38 0 00-1.38 1.382 1.38 1.38 0 001.38 1.382H20.79a1.38 1.38 0 001.38-1.382 1.38 1.38 0 00-1.38-1.382z" />
+                </svg></div>
+              <div class="li-text">LeetCode</div>
+            </a>
+            <a class="li" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer">
+              <div class="li-icon li-icon-so"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M15.725 0l-1.72 1.277 6.39 8.588 1.716-1.277zm-3.94 3.418l-1.369 1.644 8.225 6.85 1.369-1.644zm-3.15 4.465l-.905 1.94 9.702 4.517.904-1.94zm-1.85 4.86l-.44 2.093 10.473 2.201.44-2.092zM1.89 15.47V24h19.19v-8.53h-2.133v6.397H4.021v-6.396zm4.265 2.133v2.13h10.66v-2.13z" />
+                </svg></div>
+              <div class="li-text">Stack Overflow</div>
+            </a>
+            <a class="li" href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer">
+              <div class="li-icon li-icon-mdn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <path
+                    d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+                </svg></div>
+              <div class="li-text">MDN</div>
+            </a>
+            <a class="li" href="https://npmjs.com" target="_blank" rel="noopener noreferrer">
+              <div class="li-icon li-icon-npm"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323h13.837v13.629h-3.502V8.647h-3.348v10.305H5.13z" />
+                </svg></div>
+              <div class="li-text">npm</div>
+            </a>
+            <a class="li" href="https://devdocs.io" target="_blank" rel="noopener noreferrer">
+              <div class="li-icon li-icon-dd"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
+                </svg></div>
+              <div class="li-text">DevDocs</div>
+            </a>
+            <a class="li" href="https://codeforces.com" target="_blank" rel="noopener noreferrer">
+              <div class="li-icon li-icon-cf"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M4.5 7.5A1.5 1.5 0 016 9v10.5a1.5 1.5 0 01-1.5 1.5h-3A1.5 1.5 0 010 19.5V9a1.5 1.5 0 011.5-1.5zm9-4.5A1.5 1.5 0 0115 4.5v15a1.5 1.5 0 01-1.5 1.5h-3A1.5 1.5 0 019 19.5v-15A1.5 1.5 0 0110.5 3zm9 7.5A1.5 1.5 0 0124 12v7.5a1.5 1.5 0 01-1.5 1.5h-3a1.5 1.5 0 01-1.5-1.5V12a1.5 1.5 0 011.5-1.5z" />
+                </svg></div>
+              <div class="li-text">Codeforces</div>
+            </a>
+            <a class="li" href="https://vercel.com" target="_blank" rel="noopener noreferrer">
+              <div class="li-icon li-icon-vc"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 1L24 22H0z" />
+                </svg></div>
+              <div class="li-text">Vercel</div>
+            </a>
+          </div>
+        </div>
+
+      </div><!-- /col-left -->
+
+      <!-- ── COLUMN 2 ── -->
+      <div class="col col-center">
+
+        <!-- Search -->
+        <div class="card search-card">
+          <div class="ca g"></div>
+          <div class="ch">
+            <div class="ct">⌕ search</div>
+            <div class="eng-display" id="eng-active">google</div>
+          </div>
+          <div class="sf">
+            <div class="eng-badge" id="eng-badge">
+              <span class="eng-badge-icon" id="eng-icon"></span>
+              <span id="eng-name">Google</span>
+            </div>
+            <input type="text" id="searchInput" placeholder="search or enter URL…" autocomplete="off"
+              spellcheck="false" />
+            <button class="s-go" id="s-go">↵</button>
+          </div>
+          <div class="epills" id="epills"></div>
+        </div>
+
+        <!-- Contribution Heatmap -->
+        <div class="card contrib-card">
+          <div class="ca g"></div>
+          <div class="ch">
+            <div class="ct">◼ commit activity</div>
+            <div class="contrib-hdr-r">
+              <div class="contrib-label" id="contrib-user-label"></div>
+            </div>
+          </div>
+          <div id="contrib-content">
+            <div class="ls contrib-empty">
+              <span class="contrib-hint">Load a GitHub profile ← to see real commit history</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🐕 Developer Pet Dog -->
+        <div class="card pet-card" id="pet-card">
+          <div class="ca p"></div>
+          <div class="ch">
+            <div class="ct">🐕 dev companion</div>
+            <div class="pet-status" id="pet-status">
+              <div class="pet-status-dot" id="pet-dot"></div>
+              <span id="pet-state-text">awake</span>
+            </div>
+          </div>
+          <div class="pet-scene" id="pet-scene">
+            <canvas id="dog-canvas"></canvas>
+            <div class="pet-bubble hidden" id="pet-bubble">
+              <span id="pet-bubble-text"></span>
+              <div class="pet-bubble-arrow"></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /col-center -->
+
+      <!-- ── COLUMN 3 ── -->
+      <div class="col col-right">
+
+        <!-- LeetCode Progress -->
+        <div class="card lc-card">
+          <div class="ca y"></div>
+          <div class="ch">
+            <div class="ct"><svg class="lc-title-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M13.483 0a1.374 1.374 0 00-.961.438L7.116 6.226l-3.854 4.126a5.27 5.27 0 00-1.209 2.104 5.35 5.35 0 00-.125.513 5.527 5.527 0 00.062 2.362 5.83 5.83 0 00.349 1.017 5.938 5.938 0 001.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 00-1.951-.003l-2.396 2.392a3.021 3.021 0 01-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 01.066-.523 2.545 2.545 0 01.619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 00-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0013.483 0zm-2.866 12.815a1.38 1.38 0 00-1.38 1.382 1.38 1.38 0 001.38 1.382H20.79a1.38 1.38 0 001.38-1.382 1.38 1.38 0 00-1.38-1.382z" />
+              </svg> leetcode progress</div>
+            <div id="lc-sb"></div>
+          </div>
+          <div id="lc-setup">
+            <p class="lc-setup-text">Enter your LeetCode username</p>
+            <div class="flex-row">
+              <input class="lc-input" id="lc-username" placeholder="e.g. neal_wu" autocomplete="off" />
+              <button class="btn-lc" id="lc-btn">Load</button>
+            </div>
+          </div>
+          <div id="lc-prof" class="hidden">
+            <!-- Ring + Total -->
+            <div class="lc-ring-wrap">
+              <div class="lc-ring-el" id="lc-ring"></div>
+              <div class="lc-ring-center">
+                <div class="lc-ring-num" id="lc-ring-total">0</div>
+                <div class="lc-ring-label">solved</div>
+              </div>
+            </div>
+            <!-- Stats -->
+            <div class="lc-stats">
+              <div class="lc-stat">
+                <div class="lc-stat-v total" id="lc-total">—</div>
+                <div class="lc-stat-k">total</div>
+              </div>
+              <div class="lc-stat">
+                <div class="lc-stat-v lc-stat-rank" id="lc-rank">—</div>
+                <div class="lc-stat-k">rank</div>
+              </div>
+              <div class="lc-stat">
+                <div class="lc-stat-v lc-stat-accept" id="lc-accept">—</div>
+                <div class="lc-stat-k">accept %</div>
+              </div>
+              <div class="lc-stat">
+                <div class="lc-stat-v lc-stat-rep" id="lc-rep">—</div>
+                <div class="lc-stat-k">reputation</div>
+              </div>
+            </div>
+            <!-- Progress Bars -->
+            <div class="lc-prog-row">
+              <div class="lc-prog-top">
+                <div class="lc-prog-label"><span class="ldot lc-dot-easy"></span> Easy</div>
+                <div class="lc-prog-val easy" id="lc-easy-count">—</div>
+              </div>
+              <div class="lc-prog-bar">
+                <div class="lc-prog-fill easy" id="lc-easy-bar"></div>
+              </div>
+            </div>
+            <div class="lc-prog-row">
+              <div class="lc-prog-top">
+                <div class="lc-prog-label"><span class="ldot lc-dot-med"></span> Medium</div>
+                <div class="lc-prog-val med" id="lc-med-count">—</div>
+              </div>
+              <div class="lc-prog-bar">
+                <div class="lc-prog-fill med" id="lc-med-bar"></div>
+              </div>
+            </div>
+            <div class="lc-prog-row">
+              <div class="lc-prog-top">
+                <div class="lc-prog-label"><span class="ldot lc-dot-hard"></span> Hard</div>
+                <div class="lc-prog-val hard" id="lc-hard-count">—</div>
+              </div>
+              <div class="lc-prog-bar">
+                <div class="lc-prog-fill hard" id="lc-hard-bar"></div>
+              </div>
+            </div>
+            <div class="lc-user-text" id="lc-user-label"></div>
+            <button class="btn-lc btn-lc-reset" id="lc-reset-btn">↺ change user</button>
+          </div>
+        </div>
+
+
+        <!-- WakaTime Coding Stats -->
+        <div class="card waka-card">
+          <div class="ca g"></div>
+          <div class="ch">
+            <div class="ct">⏱ coding stats</div>
+            <div id="waka-sb"></div>
+          </div>
+          <div id="waka-setup">
+            <p class="waka-setup-text">Enter your WakaTime API key<br><span class="waka-hint">Settings → API Key on
+                wakatime.com</span></p>
+            <div class="flex-row">
+              <input class="waka-input" id="waka-key" type="password" placeholder="waka_xxxx…" autocomplete="off" />
+              <button class="btn-waka" id="waka-btn">Load</button>
+            </div>
+          </div>
+          <div id="waka-prof" class="hidden">
+            <div class="waka-hero">
+              <div class="waka-ring-wrap">
+                <svg class="waka-ring-svg" viewBox="0 0 120 120">
+                  <defs>
+                    <linearGradient id="wakaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#fde68a" />
+                      <stop offset="50%" stop-color="#fbbf24" />
+                      <stop offset="100%" stop-color="#f59e0b" />
+                    </linearGradient>
+                  </defs>
+                  <circle class="waka-ring-track" cx="60" cy="60" r="52" />
+                  <circle class="waka-ring-fill" id="waka-ring-fill" cx="60" cy="60" r="52" />
+                </svg>
+                <div class="waka-ring-center">
+                  <div class="waka-ring-val" id="waka-today-time">0m</div>
+                  <div class="waka-ring-sub">today</div>
+                </div>
+              </div>
+              <div class="waka-week-total">
+                <div class="waka-week-num" id="waka-week-total">0h</div>
+                <div class="waka-week-sub">this week</div>
+              </div>
+            </div>
+            <div class="waka-week-label">daily activity</div>
+            <div class="waka-bars" id="waka-bars"></div>
+            <div class="waka-langs-label">languages</div>
+            <div class="waka-langs" id="waka-langs"></div>
+            <button class="btn-waka btn-waka-reset" id="waka-reset-btn">↺ change key</button>
+          </div>
+        </div>
+
+      </div><!-- /col-right -->
+
+    </main>
+
+    <!-- ═══ STATUS BAR ═══ -->
+    <footer id="statusbar">
+      <div class="sb-l">
+        <div class="sb-branch">⎇ main</div>
+        <span>↑<span class="c-green" id="sb-c">0</span></span>
+        <span>⚠ <span class="c-amber" id="sb-w">0</span></span>
       </div>
-      <div class="waka-week-label">daily activity</div>
-      <div class="waka-bars" id="waka-bars"></div>
-      <div class="waka-langs-label">languages</div>
-      <div class="waka-langs" id="waka-langs"></div>
-      <button class="btn-waka btn-waka-reset" id="waka-reset-btn">↺ change key</button>
-    </div>
+      <div class="sb-mid">
+        <span><kbd class="kbd">Ctrl+K</kbd> search</span>
+        <span><kbd class="kbd">Enter</kbd> go</span>
+      </div>
+      <div class="sb-r">
+        <div class="sb-metric">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2" />
+            <path d="M9 9h6v6H9z" />
+          </svg>
+          <span>CPU</span>
+          <span class="c-amber" id="sb-cpu-pct">—</span>
+          <div class="sb-metric-bar">
+            <div class="sb-metric-fill sb-cpu-fill" id="sb-cpu-bar"></div>
+          </div>
+        </div>
+        <div class="sb-metric">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 19v-8a6 6 0 1112 0v8" />
+            <path d="M6 19h12" />
+          </svg>
+          <span>RAM</span>
+          <span class="c-amber" id="sb-ram-pct">—</span>
+          <div class="sb-metric-bar">
+            <div class="sb-metric-fill sb-ram-fill" id="sb-ram-bar"></div>
+          </div>
+        </div>
+        <span class="sb-sep">│</span>
+        <span>Ln <span class="c-blue" id="sb-ln">1</span> Col <span class="c-blue" id="sb-col">1</span></span>
+        <span class="c-green">UTF-8</span>
+        <span class="c-purple">JavaScript</span>
+      </div>
+    </footer>
+
   </div>
 
-  </div><!-- /col-right -->
-
-</main>
-
-<!-- ═══ STATUS BAR ═══ -->
-<footer id="statusbar">
-  <div class="sb-l">
-    <div class="sb-branch">⎇ main</div>
-    <span>↑<span class="c-green" id="sb-c">0</span></span>
-    <span>⚠ <span class="c-amber" id="sb-w">0</span></span>
-  </div>
-  <div class="sb-mid">
-    <span><kbd class="kbd">Ctrl+K</kbd> search</span>
-    <span><kbd class="kbd">Enter</kbd> go</span>
-  </div>
-  <div class="sb-r">
-    <div class="sb-metric">
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg>
-      <span>CPU</span>
-      <span class="c-amber" id="sb-cpu-pct">—</span>
-      <div class="sb-metric-bar"><div class="sb-metric-fill sb-cpu-fill" id="sb-cpu-bar"></div></div>
-    </div>
-    <div class="sb-metric">
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 19v-8a6 6 0 1112 0v8"/><path d="M6 19h12"/></svg>
-      <span>RAM</span>
-      <span class="c-amber" id="sb-ram-pct">—</span>
-      <div class="sb-metric-bar"><div class="sb-metric-fill sb-ram-fill" id="sb-ram-bar"></div></div>
-    </div>
-    <span class="sb-sep">│</span>
-    <span>Ln <span class="c-blue" id="sb-ln">1</span> Col <span class="c-blue" id="sb-col">1</span></span>
-    <span class="c-green">UTF-8</span>
-    <span class="c-purple">JavaScript</span>
-  </div>
-</footer>
-
-</div>
-
-<script src="script.js"></script>
+  <script src="libs/three.min.js"></script>
+  <script src="libs/GLTFLoader.js"></script>
+  <script src="script.js"></script>
+  <script src="dog3d.js"></script>
 </body>
+
 </html>

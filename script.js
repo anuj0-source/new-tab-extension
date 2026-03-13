@@ -206,7 +206,8 @@ function doSearch() {
     const q = $('#searchInput').value.trim();
     if (!q) return;
     const url = /^https?:\/\//.test(q) ? q : ENGINES[activeEngine].url + encodeURIComponent(q);
-    window.open(url, '_blank', 'noopener,noreferrer');
+    $('#searchInput').value = "";
+    window.open(url, '_self', 'noopener,noreferrer');
 }
 
 $('#s-go').addEventListener('click', doSearch);
@@ -986,39 +987,7 @@ function resetLeetCode() {
     setInterval(updateMetrics, 2500);
 })();
 
-/* ══════════════════════════════════════════════════════
-   7. SCRATCH PAD (localStorage)
-   ══════════════════════════════════════════════════════ */
-const notepad = $('#notepad');
-const lineNums = $('#lnums');
-const sbLn = $('#sb-ln');
-const sbCol = $('#sb-col');
-
-function updateLineNums() {
-    lineNums.innerHTML = Array.from(
-        { length: Math.max(notepad.value.split('\n').length, 4) },
-        (_, i) => i + 1
-    ).join('<br>');
-}
-
-function updateCursorPos() {
-    const lines = notepad.value.slice(0, notepad.selectionStart).split('\n');
-    sbLn.textContent = lines.length;
-    sbCol.textContent = lines[lines.length - 1].length + 1;
-}
-
-let noteSaveTimeout;
-notepad.addEventListener('input', () => {
-    updateLineNums();
-    clearTimeout(noteSaveTimeout);
-    noteSaveTimeout = setTimeout(() => { localStorage.setItem('devtab_notes', notepad.value); }, 400);
-});
-notepad.addEventListener('keyup', updateCursorPos);
-notepad.addEventListener('click', updateCursorPos);
-
-const savedNotes = localStorage.getItem('devtab_notes');
-if (savedNotes) notepad.value = savedNotes;
-updateLineNums();
+/* (Scratchpad removed — replaced by Pet Dog) */
 
 /* ══════════════════════════════════════════════════════
    9. CARD GLOW EFFECT

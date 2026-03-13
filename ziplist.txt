@@ -1,0 +1,2 @@
+source/little_dog_cartoon__0311212746_texture_fbx.zip | 57453287
+textures/gltf_embedded_0.jpeg | 2649984

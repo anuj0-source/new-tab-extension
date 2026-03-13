@@ -1,0 +1,3160 @@
+diff --git a/icons/icon128.png b/icons/icon128.png
+index b5044d1..ae20e4b 100644
+Binary files a/icons/icon128.png and b/icons/icon128.png differ
+diff --git a/icons/icon16.png b/icons/icon16.png
+index 989cf6f..68c1479 100644
+Binary files a/icons/icon16.png and b/icons/icon16.png differ
+diff --git a/icons/icon48.png b/icons/icon48.png
+index 33dbd68..2d54f84 100644
+Binary files a/icons/icon48.png and b/icons/icon48.png differ
+diff --git a/index.html b/index.html
+index 292e4d0..b7baee7 100644
+--- a/index.html
++++ b/index.html
+@@ -1,5 +1,6 @@
+ <!DOCTYPE html>
+ <html lang="en">
++
+ <head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+@@ -7,323 +8,450 @@
+   <link rel="icon" type="image/png" href="icons/icon48.png">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
++  <link
++    href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&family=Syne:wght@400;700;800&display=swap"
++    rel="stylesheet">
+   <link rel="stylesheet" href="style.css">
+ </head>
+-<body>
+-
+-<!-- Background Effects -->
+-<canvas id="bg-canvas"></canvas>
+-<div class="ambient"></div>
+-<div class="grid-bg"></div>
+-<div class="scanlines"></div>
+-<div class="tooltip" id="tt"></div>
+ 
+-<div id="app">
+-
+-<!-- ═══ TOP BAR ═══ -->
+-<header id="topbar">
+-  <div class="tb-l">
+-    <div class="tb-prompt">
+-      <span class="u" id="tb-user">user</span><span class="tb-sep">@</span><span class="h">localhost</span><span class="tb-sep">:</span><span class="p">~/dashboard</span><span class="sym">$</span>
+-      <span class="tb-session">session=<span class="tb-sid" id="sid">…</span></span>
+-    </div>
+-  </div>
+-  <div class="tb-r">
+-    <div class="chip speed-chip">
+-      <svg class="speed-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V4"/><path d="m5 11 7-7 7 7"/></svg>
+-      <span class="speed-up" id="speed-up">0 Kb/s</span>
+-      <svg class="speed-icon speed-down-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16"/><path d="m5 13 7 7 7-7"/></svg>
+-      <span class="speed-down" id="speed-down">0 Kb/s</span>
+-    </div>
+-    <div class="chip"><div class="dot-g"></div><span id="tb-tz">UTC</span></div>
+-    <div class="chip"><div class="dot-y"></div>node v20</div>
+-    <div id="tbclock">00:00:00</div>
+-  </div>
+-</header>
++<body>
+ 
+-<!-- ═══ MAIN GRID ═══ -->
+-<main id="main">
++  <!-- Background Effects -->
++  <canvas id="bg-canvas"></canvas>
++  <div class="ambient"></div>
++  <div class="grid-bg"></div>
++  <div class="scanlines"></div>
++  <div class="tooltip" id="tt"></div>
+ 
+-  <!-- ── COLUMN 1 ── -->
+-  <div class="col col-left">
++  <div id="app">
+ 
+-  <!-- Clock -->
+-  <div class="card clock-card">
+-    <div class="ca y"></div>
+-    <div class="ch">
+-      <div class="ct">⏱ system time</div>
+-      <div class="badge-y" id="tz-badge">…</div>
+-    </div>
+-    <div class="greeting-wrap">
+-      <div class="greeting" id="greeting">Good evening</div>
+-      <div class="greeting-name" id="greeting-name" title="Click to change name">developer</div>
+-    </div>
+-    <div class="clock-main">
+-      <div class="clock-digits">
+-        <div class="clock-time" id="chm">00:00</div>
+-        <div class="clock-sec" id="cs">:00</div>
+-      </div>
+-      <div class="clock-date" id="cdate">loading…</div>
+-      <div class="clock-weather" id="clock-weather">
+-        <span class="cw-icon" id="weather-icon">--</span>
+-        <span class="cw-temp" id="weather-temp">--°</span>
+-        <span class="cw-sep">·</span>
+-        <span class="cw-desc" id="weather-desc">loading…</span>
+-        <span class="cw-loc" id="weather-loc"></span>
+-      </div>
+-    </div>
+-    <div class="clock-meta">
+-      <div class="cb">session <span id="upt">00:00</span></div>
+-      <div class="cb">week <span id="wk">--</span></div>
+-    </div>
+-  </div>
+-
+-  <!-- GitHub Profile -->
+-  <div class="card gh-card">
+-    <div class="ca b"></div>
+-    <div class="ch">
+-      <div class="ct"><svg class="gh-title-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg> github profile</div>
+-      <div id="gh-sb"></div>
+-    </div>
+-    <div id="gh-setup">
+-      <p class="gh-setup-text">Enter your GitHub username to load<br>real commit activity &amp; stats</p>
+-      <div class="flex-row">
+-        <input class="gh-input" id="ghu" placeholder="e.g. torvalds" autocomplete="off"/>
+-        <button class="btn-p" id="gh-btn">Load</button>
+-      </div>
+-    </div>
+-    <div id="gh-prof" class="hidden">
+-      <div class="gh-header">
+-        <img class="gh-avatar" id="gh-av" src="" alt="GitHub avatar">
+-        <div>
+-          <div class="gh-name" id="gh-nm">—</div>
+-          <div class="gh-login" id="gh-lg">@—</div>
+-          <div class="gh-bio-text" id="gh-bio"></div>
++    <!-- ═══ TOP BAR ═══ -->
++    <header id="topbar">
++      <div class="tb-l">
++        <div class="tb-prompt">
++          <span class="u" id="tb-user">user</span><span class="tb-sep">@</span><span class="h">localhost</span><span
++            class="tb-sep">:</span><span class="p">~/dashboard</span><span class="sym">$</span>
++          <span class="tb-session">session=<span class="tb-sid" id="sid">…</span></span>
+         </div>
+       </div>
+-      <div class="gh-stats">
+-        <div class="gh-stat"><div class="gh-stat-v" id="gh-repos">—</div><div class="gh-stat-k">repos</div></div>
+-        <div class="gh-stat"><div class="gh-stat-v" id="gh-fol">—</div><div class="gh-stat-k">followers</div></div>
+-        <div class="gh-stat"><div class="gh-stat-v" id="gh-fng">—</div><div class="gh-stat-k">following</div></div>
++      <div class="tb-r">
++        <div class="chip speed-chip">
++          <svg class="speed-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
++            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
++            <path d="M12 20V4" />
++            <path d="m5 11 7-7 7 7" />
++          </svg>
++          <span class="speed-up" id="speed-up">0 Kb/s</span>
++          <svg class="speed-icon speed-down-icon" width="11" height="11" viewBox="0 0 24 24" fill="none"
++            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
++            <path d="M12 4v16" />
++            <path d="m5 13 7 7 7-7" />
++          </svg>
++          <span class="speed-down" id="speed-down">0 Kb/s</span>
++        </div>
++        <div class="chip">
++          <div class="dot-g"></div><span id="tb-tz">UTC</span>
++        </div>
++        <div class="chip">
++          <div class="dot-y"></div>node v20
++        </div>
++        <div id="tbclock">00:00:00</div>
+       </div>
+-      <div class="hr"></div>
+-      <div id="gh-langs"></div>
+-      <button class="btn-p btn-reset" id="gh-reset-btn">↺ change user</button>
+-    </div>
+-  </div>
++    </header>
+ 
+-  <!-- Quick Links -->
+-  <div class="card links-card">
+-    <div class="ca p"></div>
+-    <div class="ch">
+-      <div class="ct">⬢ bookmarks</div>
+-      <div class="sub-label">open in new tab</div>
+-    </div>
+-    <div class="links-grid">
+-      <a class="li" href="https://github.com" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-gh"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></div><div class="li-text">GitHub</div></a>
+-      <a class="li" href="https://leetcode.com" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-lc"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 00-.961.438L7.116 6.226l-3.854 4.126a5.27 5.27 0 00-1.209 2.104 5.35 5.35 0 00-.125.513 5.527 5.527 0 00.062 2.362 5.83 5.83 0 00.349 1.017 5.938 5.938 0 001.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 00-1.951-.003l-2.396 2.392a3.021 3.021 0 01-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 01.066-.523 2.545 2.545 0 01.619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 00-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0013.483 0zm-2.866 12.815a1.38 1.38 0 00-1.38 1.382 1.38 1.38 0 001.38 1.382H20.79a1.38 1.38 0 001.38-1.382 1.38 1.38 0 00-1.38-1.382z"/></svg></div><div class="li-text">LeetCode</div></a>
+-      <a class="li" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-so"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M15.725 0l-1.72 1.277 6.39 8.588 1.716-1.277zm-3.94 3.418l-1.369 1.644 8.225 6.85 1.369-1.644zm-3.15 4.465l-.905 1.94 9.702 4.517.904-1.94zm-1.85 4.86l-.44 2.093 10.473 2.201.44-2.092zM1.89 15.47V24h19.19v-8.53h-2.133v6.397H4.021v-6.396zm4.265 2.133v2.13h10.66v-2.13z"/></svg></div><div class="li-text">Stack Overflow</div></a>
+-      <a class="li" href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-mdn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div class="li-text">MDN</div></a>
+-      <a class="li" href="https://npmjs.com" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-npm"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323h13.837v13.629h-3.502V8.647h-3.348v10.305H5.13z"/></svg></div><div class="li-text">npm</div></a>
+-      <a class="li" href="https://devdocs.io" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-dd"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div class="li-text">DevDocs</div></a>
+-      <a class="li" href="https://codeforces.com" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-cf"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.5 7.5A1.5 1.5 0 016 9v10.5a1.5 1.5 0 01-1.5 1.5h-3A1.5 1.5 0 010 19.5V9a1.5 1.5 0 011.5-1.5zm9-4.5A1.5 1.5 0 0115 4.5v15a1.5 1.5 0 01-1.5 1.5h-3A1.5 1.5 0 019 19.5v-15A1.5 1.5 0 0110.5 3zm9 7.5A1.5 1.5 0 0124 12v7.5a1.5 1.5 0 01-1.5 1.5h-3a1.5 1.5 0 01-1.5-1.5V12a1.5 1.5 0 011.5-1.5z"/></svg></div><div class="li-text">Codeforces</div></a>
+-      <a class="li" href="https://vercel.com" target="_blank" rel="noopener noreferrer"><div class="li-icon li-icon-vc"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L24 22H0z"/></svg></div><div class="li-text">Vercel</div></a>
+-    </div>
+-  </div>
++    <!-- ═══ MAIN GRID ═══ -->
++    <main id="main">
+ 
+-  </div><!-- /col-left -->
++      <!-- ── COLUMN 1 ── -->
++      <div class="col col-left">
+ 
+-  <!-- ── COLUMN 2 ── -->
+-  <div class="col col-center">
++        <!-- Clock -->
++        <div class="card clock-card">
++          <div class="ca y"></div>
++          <div class="ch">
++            <div class="ct">⏱ system time</div>
++            <div class="badge-y" id="tz-badge">…</div>
++          </div>
++          <div class="greeting-wrap">
++            <div class="greeting" id="greeting">Good evening</div>
++            <div class="greeting-name" id="greeting-name" title="Click to change name">developer</div>
++          </div>
++          <div class="clock-main">
++            <div class="clock-digits">
++              <div class="clock-time" id="chm">00:00</div>
++              <div class="clock-sec" id="cs">:00</div>
++            </div>
++            <div class="clock-date" id="cdate">loading…</div>
++            <div class="clock-weather" id="clock-weather">
++              <span class="cw-icon" id="weather-icon">--</span>
++              <span class="cw-temp" id="weather-temp">--°</span>
++              <span class="cw-sep">·</span>
++              <span class="cw-desc" id="weather-desc">loading…</span>
++              <span class="cw-loc" id="weather-loc"></span>
++            </div>
++          </div>
++          <div class="clock-meta">
++            <div class="cb">session <span id="upt">00:00</span></div>
++            <div class="cb">week <span id="wk">--</span></div>
++          </div>
++        </div>
+ 
+-  <!-- Search -->
+-  <div class="card search-card">
+-    <div class="ca g"></div>
+-    <div class="ch">
+-      <div class="ct">⌕ search</div>
+-      <div class="eng-display" id="eng-active">google</div>
+-    </div>
+-    <div class="sf">
+-      <div class="eng-badge" id="eng-badge">
+-        <span class="eng-badge-icon" id="eng-icon"></span>
+-        <span id="eng-name">Google</span>
+-      </div>
+-      <input type="text" id="searchInput" placeholder="search or enter URL…" autocomplete="off" spellcheck="false"/>
+-      <button class="s-go" id="s-go">↵</button>
+-    </div>
+-    <div class="epills" id="epills"></div>
+-  </div>
++        <!-- GitHub Profile -->
++        <div class="card gh-card">
++          <div class="ca b"></div>
++          <div class="ch">
++            <div class="ct"><svg class="gh-title-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
++                <path
++                  d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
++              </svg> github profile</div>
++            <div id="gh-sb"></div>
++          </div>
++          <div id="gh-setup">
++            <p class="gh-setup-text">Enter your GitHub username to load<br>real commit activity &amp; stats</p>
++            <div class="flex-row">
++              <input class="gh-input" id="ghu" placeholder="e.g. torvalds" autocomplete="off" />
++              <button class="btn-p" id="gh-btn">Load</button>
++            </div>
++          </div>
++          <div id="gh-prof" class="hidden">
++            <div class="gh-header">
++              <img class="gh-avatar" id="gh-av" src="" alt="GitHub avatar">
++              <div>
++                <div class="gh-name" id="gh-nm">—</div>
++                <div class="gh-login" id="gh-lg">@—</div>
++                <div class="gh-bio-text" id="gh-bio"></div>
++              </div>
++            </div>
++            <div class="gh-stats">
++              <div class="gh-stat">
++                <div class="gh-stat-v" id="gh-repos">—</div>
++                <div class="gh-stat-k">repos</div>
++              </div>
++              <div class="gh-stat">
++                <div class="gh-stat-v" id="gh-fol">—</div>
++                <div class="gh-stat-k">followers</div>
++              </div>
++              <div class="gh-stat">
++                <div class="gh-stat-v" id="gh-fng">—</div>
++                <div class="gh-stat-k">following</div>
++              </div>
++            </div>
++            <div class="hr"></div>
++            <div id="gh-langs"></div>
++            <button class="btn-p btn-reset" id="gh-reset-btn">↺ change user</button>
++          </div>
++        </div>
+ 
+-  <!-- Contribution Heatmap -->
+-  <div class="card contrib-card">
+-    <div class="ca g"></div>
+-    <div class="ch">
+-      <div class="ct">◼ commit activity</div>
+-      <div class="contrib-hdr-r">
+-        <div class="contrib-label" id="contrib-user-label"></div>
+-      </div>
+-    </div>
+-    <div id="contrib-content">
+-      <div class="ls contrib-empty">
+-        <span class="contrib-hint">Load a GitHub profile ← to see real commit history</span>
+-      </div>
+-    </div>
+-  </div>
++        <!-- Quick Links -->
++        <div class="card links-card">
++          <div class="ca p"></div>
++          <div class="ch">
++            <div class="ct">⬢ bookmarks</div>
++            <div class="sub-label">open in new tab</div>
++          </div>
++          <div class="links-grid">
++            <a class="li" href="https://github.com" target="_blank" rel="noopener noreferrer">
++              <div class="li-icon li-icon-gh"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
++                  <path
++                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
++                </svg></div>
++              <div class="li-text">GitHub</div>
++            </a>
++            <a class="li" href="https://leetcode.com" target="_blank" rel="noopener noreferrer">
++              <div class="li-icon li-icon-lc"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
++                  <path
++                    d="M13.483 0a1.374 1.374 0 00-.961.438L7.116 6.226l-3.854 4.126a5.27 5.27 0 00-1.209 2.104 5.35 5.35 0 00-.125.513 5.527 5.527 0 00.062 2.362 5.83 5.83 0 00.349 1.017 5.938 5.938 0 001.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 00-1.951-.003l-2.396 2.392a3.021 3.021 0 01-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 01.066-.523 2.545 2.545 0 01.619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 00-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0013.483 0zm-2.866 12.815a1.38 1.38 0 00-1.38 1.382 1.38 1.38 0 001.38 1.382H20.79a1.38 1.38 0 001.38-1.382 1.38 1.38 0 00-1.38-1.382z" />
++                </svg></div>
++              <div class="li-text">LeetCode</div>
++            </a>
++            <a class="li" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer">
++              <div class="li-icon li-icon-so"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
++                  <path
++                    d="M15.725 0l-1.72 1.277 6.39 8.588 1.716-1.277zm-3.94 3.418l-1.369 1.644 8.225 6.85 1.369-1.644zm-3.15 4.465l-.905 1.94 9.702 4.517.904-1.94zm-1.85 4.86l-.44 2.093 10.473 2.201.44-2.092zM1.89 15.47V24h19.19v-8.53h-2.133v6.397H4.021v-6.396zm4.265 2.133v2.13h10.66v-2.13z" />
++                </svg></div>
++              <div class="li-text">Stack Overflow</div>
++            </a>
++            <a class="li" href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer">
++              <div class="li-icon li-icon-mdn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
++                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
++                  <circle cx="12" cy="12" r="10" />
++                  <path
++                    d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
++                </svg></div>
++              <div class="li-text">MDN</div>
++            </a>
++            <a class="li" href="https://npmjs.com" target="_blank" rel="noopener noreferrer">
++              <div class="li-icon li-icon-npm"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
++                  <path
++                    d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323h13.837v13.629h-3.502V8.647h-3.348v10.305H5.13z" />
++                </svg></div>
++              <div class="li-text">npm</div>
++            </a>
++            <a class="li" href="https://devdocs.io" target="_blank" rel="noopener noreferrer">
++              <div class="li-icon li-icon-dd"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
++                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
++                  <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" />
++                  <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
++                </svg></div>
++              <div class="li-text">DevDocs</div>
++            </a>
++            <a class="li" href="https://codeforces.com" target="_blank" rel="noopener noreferrer">
++              <div class="li-icon li-icon-cf"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
++                  <path
++                    d="M4.5 7.5A1.5 1.5 0 016 9v10.5a1.5 1.5 0 01-1.5 1.5h-3A1.5 1.5 0 010 19.5V9a1.5 1.5 0 011.5-1.5zm9-4.5A1.5 1.5 0 0115 4.5v15a1.5 1.5 0 01-1.5 1.5h-3A1.5 1.5 0 019 19.5v-15A1.5 1.5 0 0110.5 3zm9 7.5A1.5 1.5 0 0124 12v7.5a1.5 1.5 0 01-1.5 1.5h-3a1.5 1.5 0 01-1.5-1.5V12a1.5 1.5 0 011.5-1.5z" />
++                </svg></div>
++              <div class="li-text">Codeforces</div>
++            </a>
++            <a class="li" href="https://vercel.com" target="_blank" rel="noopener noreferrer">
++              <div class="li-icon li-icon-vc"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
++                  <path d="M12 1L24 22H0z" />
++                </svg></div>
++              <div class="li-text">Vercel</div>
++            </a>
++          </div>
++        </div>
+ 
+-  <!-- Scratch Pad -->
+-  <div class="card term-card">
+-    <div class="ca p"></div>
+-    <div class="ch">
+-      <div class="ct">▸ scratch pad</div>
+-      <div class="auto-label">auto-saved</div>
+-    </div>
+-    <div class="nw">
+-      <div class="nl" id="lnums">1</div>
+-      <textarea id="notepad" rows="6" placeholder="// notes, snippets, todos...&#10;const ideas = []"></textarea>
+-    </div>
+-  </div>
++      </div><!-- /col-left -->
+ 
+-  </div><!-- /col-center -->
++      <!-- ── COLUMN 2 ── -->
++      <div class="col col-center">
+ 
+-  <!-- ── COLUMN 3 ── -->
+-  <div class="col col-right">
++        <!-- Search -->
++        <div class="card search-card">
++          <div class="ca g"></div>
++          <div class="ch">
++            <div class="ct">⌕ search</div>
++            <div class="eng-display" id="eng-active">google</div>
++          </div>
++          <div class="sf">
++            <div class="eng-badge" id="eng-badge">
++              <span class="eng-badge-icon" id="eng-icon"></span>
++              <span id="eng-name">Google</span>
++            </div>
++            <input type="text" id="searchInput" placeholder="search or enter URL…" autocomplete="off"
++              spellcheck="false" />
++            <button class="s-go" id="s-go">↵</button>
++          </div>
++          <div class="epills" id="epills"></div>
++        </div>
+ 
+-  <!-- LeetCode Progress -->
+-  <div class="card lc-card">
+-    <div class="ca y"></div>
+-    <div class="ch">
+-      <div class="ct"><svg class="lc-title-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 00-.961.438L7.116 6.226l-3.854 4.126a5.27 5.27 0 00-1.209 2.104 5.35 5.35 0 00-.125.513 5.527 5.527 0 00.062 2.362 5.83 5.83 0 00.349 1.017 5.938 5.938 0 001.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 00-1.951-.003l-2.396 2.392a3.021 3.021 0 01-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 01.066-.523 2.545 2.545 0 01.619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 00-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0013.483 0zm-2.866 12.815a1.38 1.38 0 00-1.38 1.382 1.38 1.38 0 001.38 1.382H20.79a1.38 1.38 0 001.38-1.382 1.38 1.38 0 00-1.38-1.382z"/></svg> leetcode progress</div>
+-      <div id="lc-sb"></div>
+-    </div>
+-    <div id="lc-setup">
+-      <p class="lc-setup-text">Enter your LeetCode username</p>
+-      <div class="flex-row">
+-        <input class="lc-input" id="lc-username" placeholder="e.g. neal_wu" autocomplete="off"/>
+-        <button class="btn-lc" id="lc-btn">Load</button>
+-      </div>
+-    </div>
+-    <div id="lc-prof" class="hidden">
+-      <!-- Ring + Total -->
+-      <div class="lc-ring-wrap">
+-        <div class="lc-ring-el" id="lc-ring"></div>
+-        <div class="lc-ring-center">
+-          <div class="lc-ring-num" id="lc-ring-total">0</div>
+-          <div class="lc-ring-label">solved</div>
++        <!-- Contribution Heatmap -->
++        <div class="card contrib-card">
++          <div class="ca g"></div>
++          <div class="ch">
++            <div class="ct">◼ commit activity</div>
++            <div class="contrib-hdr-r">
++              <div class="contrib-label" id="contrib-user-label"></div>
++            </div>
++          </div>
++          <div id="contrib-content">
++            <div class="ls contrib-empty">
++              <span class="contrib-hint">Load a GitHub profile ← to see real commit history</span>
++            </div>
++          </div>
+         </div>
+-      </div>
+-      <!-- Stats -->
+-      <div class="lc-stats">
+-        <div class="lc-stat"><div class="lc-stat-v total" id="lc-total">—</div><div class="lc-stat-k">total</div></div>
+-        <div class="lc-stat"><div class="lc-stat-v lc-stat-rank" id="lc-rank">—</div><div class="lc-stat-k">rank</div></div>
+-        <div class="lc-stat"><div class="lc-stat-v lc-stat-accept" id="lc-accept">—</div><div class="lc-stat-k">accept %</div></div>
+-        <div class="lc-stat"><div class="lc-stat-v lc-stat-rep" id="lc-rep">—</div><div class="lc-stat-k">reputation</div></div>
+-      </div>
+-      <!-- Progress Bars -->
+-      <div class="lc-prog-row">
+-        <div class="lc-prog-top">
+-          <div class="lc-prog-label"><span class="ldot lc-dot-easy"></span> Easy</div>
+-          <div class="lc-prog-val easy" id="lc-easy-count">—</div>
++
++        <!-- 🐕 Developer Pet Dog -->
++        <div class="card pet-card" id="pet-card">
++          <div class="ca p"></div>
++          <div class="ch">
++            <div class="ct">🐕 dev companion</div>
++            <div class="pet-status" id="pet-status">
++              <div class="pet-status-dot" id="pet-dot"></div>
++              <span id="pet-state-text">awake</span>
++            </div>
++          </div>
++          <div class="pet-scene" id="pet-scene">
++            <canvas id="dog-canvas"></canvas>
++            <div class="pet-bubble hidden" id="pet-bubble">
++              <span id="pet-bubble-text"></span>
++              <div class="pet-bubble-arrow"></div>
++            </div>
++          </div>
+         </div>
+-        <div class="lc-prog-bar"><div class="lc-prog-fill easy" id="lc-easy-bar"></div></div>
+-      </div>
+-      <div class="lc-prog-row">
+-        <div class="lc-prog-top">
+-          <div class="lc-prog-label"><span class="ldot lc-dot-med"></span> Medium</div>
+-          <div class="lc-prog-val med" id="lc-med-count">—</div>
++
++      </div><!-- /col-center -->
++
++      <!-- ── COLUMN 3 ── -->
++      <div class="col col-right">
++
++        <!-- LeetCode Progress -->
++        <div class="card lc-card">
++          <div class="ca y"></div>
++          <div class="ch">
++            <div class="ct"><svg class="lc-title-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
++                <path
++                  d="M13.483 0a1.374 1.374 0 00-.961.438L7.116 6.226l-3.854 4.126a5.27 5.27 0 00-1.209 2.104 5.35 5.35 0 00-.125.513 5.527 5.527 0 00.062 2.362 5.83 5.83 0 00.349 1.017 5.938 5.938 0 001.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 00-1.951-.003l-2.396 2.392a3.021 3.021 0 01-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 01.066-.523 2.545 2.545 0 01.619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 00-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0013.483 0zm-2.866 12.815a1.38 1.38 0 00-1.38 1.382 1.38 1.38 0 001.38 1.382H20.79a1.38 1.38 0 001.38-1.382 1.38 1.38 0 00-1.38-1.382z" />
++              </svg> leetcode progress</div>
++            <div id="lc-sb"></div>
++          </div>
++          <div id="lc-setup">
++            <p class="lc-setup-text">Enter your LeetCode username</p>
++            <div class="flex-row">
++              <input class="lc-input" id="lc-username" placeholder="e.g. neal_wu" autocomplete="off" />
++              <button class="btn-lc" id="lc-btn">Load</button>
++            </div>
++          </div>
++          <div id="lc-prof" class="hidden">
++            <!-- Ring + Total -->
++            <div class="lc-ring-wrap">
++              <div class="lc-ring-el" id="lc-ring"></div>
++              <div class="lc-ring-center">
++                <div class="lc-ring-num" id="lc-ring-total">0</div>
++                <div class="lc-ring-label">solved</div>
++              </div>
++            </div>
++            <!-- Stats -->
++            <div class="lc-stats">
++              <div class="lc-stat">
++                <div class="lc-stat-v total" id="lc-total">—</div>
++                <div class="lc-stat-k">total</div>
++              </div>
++              <div class="lc-stat">
++                <div class="lc-stat-v lc-stat-rank" id="lc-rank">—</div>
++                <div class="lc-stat-k">rank</div>
++              </div>
++              <div class="lc-stat">
++                <div class="lc-stat-v lc-stat-accept" id="lc-accept">—</div>
++                <div class="lc-stat-k">accept %</div>
++              </div>
++              <div class="lc-stat">
++                <div class="lc-stat-v lc-stat-rep" id="lc-rep">—</div>
++                <div class="lc-stat-k">reputation</div>
++              </div>
++            </div>
++            <!-- Progress Bars -->
++            <div class="lc-prog-row">
++              <div class="lc-prog-top">
++                <div class="lc-prog-label"><span class="ldot lc-dot-easy"></span> Easy</div>
++                <div class="lc-prog-val easy" id="lc-easy-count">—</div>
++              </div>
++              <div class="lc-prog-bar">
++                <div class="lc-prog-fill easy" id="lc-easy-bar"></div>
++              </div>
++            </div>
++            <div class="lc-prog-row">
++              <div class="lc-prog-top">
++                <div class="lc-prog-label"><span class="ldot lc-dot-med"></span> Medium</div>
++                <div class="lc-prog-val med" id="lc-med-count">—</div>
++              </div>
++              <div class="lc-prog-bar">
++                <div class="lc-prog-fill med" id="lc-med-bar"></div>
++              </div>
++            </div>
++            <div class="lc-prog-row">
++              <div class="lc-prog-top">
++                <div class="lc-prog-label"><span class="ldot lc-dot-hard"></span> Hard</div>
++                <div class="lc-prog-val hard" id="lc-hard-count">—</div>
++              </div>
++              <div class="lc-prog-bar">
++                <div class="lc-prog-fill hard" id="lc-hard-bar"></div>
++              </div>
++            </div>
++            <div class="lc-user-text" id="lc-user-label"></div>
++            <button class="btn-lc btn-lc-reset" id="lc-reset-btn">↺ change user</button>
++          </div>
+         </div>
+-        <div class="lc-prog-bar"><div class="lc-prog-fill med" id="lc-med-bar"></div></div>
+-      </div>
+-      <div class="lc-prog-row">
+-        <div class="lc-prog-top">
+-          <div class="lc-prog-label"><span class="ldot lc-dot-hard"></span> Hard</div>
+-          <div class="lc-prog-val hard" id="lc-hard-count">—</div>
++
++
++        <!-- WakaTime Coding Stats -->
++        <div class="card waka-card">
++          <div class="ca g"></div>
++          <div class="ch">
++            <div class="ct">⏱ coding stats</div>
++            <div id="waka-sb"></div>
++          </div>
++          <div id="waka-setup">
++            <p class="waka-setup-text">Enter your WakaTime API key<br><span class="waka-hint">Settings → API Key on
++                wakatime.com</span></p>
++            <div class="flex-row">
++              <input class="waka-input" id="waka-key" type="password" placeholder="waka_xxxx…" autocomplete="off" />
++              <button class="btn-waka" id="waka-btn">Load</button>
++            </div>
++          </div>
++          <div id="waka-prof" class="hidden">
++            <div class="waka-hero">
++              <div class="waka-ring-wrap">
++                <svg class="waka-ring-svg" viewBox="0 0 120 120">
++                  <defs>
++                    <linearGradient id="wakaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
++                      <stop offset="0%" stop-color="#fde68a" />
++                      <stop offset="50%" stop-color="#fbbf24" />
++                      <stop offset="100%" stop-color="#f59e0b" />
++                    </linearGradient>
++                  </defs>
++                  <circle class="waka-ring-track" cx="60" cy="60" r="52" />
++                  <circle class="waka-ring-fill" id="waka-ring-fill" cx="60" cy="60" r="52" />
++                </svg>
++                <div class="waka-ring-center">
++                  <div class="waka-ring-val" id="waka-today-time">0m</div>
++                  <div class="waka-ring-sub">today</div>
++                </div>
++              </div>
++              <div class="waka-week-total">
++                <div class="waka-week-num" id="waka-week-total">0h</div>
++                <div class="waka-week-sub">this week</div>
++              </div>
++            </div>
++            <div class="waka-week-label">daily activity</div>
++            <div class="waka-bars" id="waka-bars"></div>
++            <div class="waka-langs-label">languages</div>
++            <div class="waka-langs" id="waka-langs"></div>
++            <button class="btn-waka btn-waka-reset" id="waka-reset-btn">↺ change key</button>
++          </div>
+         </div>
+-        <div class="lc-prog-bar"><div class="lc-prog-fill hard" id="lc-hard-bar"></div></div>
+-      </div>
+-      <div class="lc-user-text" id="lc-user-label"></div>
+-      <button class="btn-lc btn-lc-reset" id="lc-reset-btn">↺ change user</button>
+-    </div>
+-  </div>
+ 
++      </div><!-- /col-right -->
+ 
+-  <!-- WakaTime Coding Stats -->
+-  <div class="card waka-card">
+-    <div class="ca g"></div>
+-    <div class="ch">
+-      <div class="ct">⏱ coding stats</div>
+-      <div id="waka-sb"></div>
+-    </div>
+-    <div id="waka-setup">
+-      <p class="waka-setup-text">Enter your WakaTime API key<br><span class="waka-hint">Settings → API Key on wakatime.com</span></p>
+-      <div class="flex-row">
+-        <input class="waka-input" id="waka-key" type="password" placeholder="waka_xxxx…" autocomplete="off"/>
+-        <button class="btn-waka" id="waka-btn">Load</button>
++    </main>
++
++    <!-- ═══ STATUS BAR ═══ -->
++    <footer id="statusbar">
++      <div class="sb-l">
++        <div class="sb-branch">⎇ main</div>
++        <span>↑<span class="c-green" id="sb-c">0</span></span>
++        <span>⚠ <span class="c-amber" id="sb-w">0</span></span>
++      </div>
++      <div class="sb-mid">
++        <span><kbd class="kbd">Ctrl+K</kbd> search</span>
++        <span><kbd class="kbd">Enter</kbd> go</span>
+       </div>
+-    </div>
+-    <div id="waka-prof" class="hidden">
+-      <div class="waka-hero">
+-        <div class="waka-ring-wrap">
+-          <svg class="waka-ring-svg" viewBox="0 0 120 120">
+-            <defs><linearGradient id="wakaGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fde68a"/><stop offset="50%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient></defs>
+-            <circle class="waka-ring-track" cx="60" cy="60" r="52"/>
+-            <circle class="waka-ring-fill" id="waka-ring-fill" cx="60" cy="60" r="52"/>
++      <div class="sb-r">
++        <div class="sb-metric">
++          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
++            <rect x="4" y="4" width="16" height="16" rx="2" />
++            <path d="M9 9h6v6H9z" />
+           </svg>
+-          <div class="waka-ring-center">
+-            <div class="waka-ring-val" id="waka-today-time">0m</div>
+-            <div class="waka-ring-sub">today</div>
++          <span>CPU</span>
++          <span class="c-amber" id="sb-cpu-pct">—</span>
++          <div class="sb-metric-bar">
++            <div class="sb-metric-fill sb-cpu-fill" id="sb-cpu-bar"></div>
+           </div>
+         </div>
+-        <div class="waka-week-total">
+-          <div class="waka-week-num" id="waka-week-total">0h</div>
+-          <div class="waka-week-sub">this week</div>
++        <div class="sb-metric">
++          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
++            <path d="M6 19v-8a6 6 0 1112 0v8" />
++            <path d="M6 19h12" />
++          </svg>
++          <span>RAM</span>
++          <span class="c-amber" id="sb-ram-pct">—</span>
++          <div class="sb-metric-bar">
++            <div class="sb-metric-fill sb-ram-fill" id="sb-ram-bar"></div>
++          </div>
+         </div>
++        <span class="sb-sep">│</span>
++        <span>Ln <span class="c-blue" id="sb-ln">1</span> Col <span class="c-blue" id="sb-col">1</span></span>
++        <span class="c-green">UTF-8</span>
++        <span class="c-purple">JavaScript</span>
+       </div>
+-      <div class="waka-week-label">daily activity</div>
+-      <div class="waka-bars" id="waka-bars"></div>
+-      <div class="waka-langs-label">languages</div>
+-      <div class="waka-langs" id="waka-langs"></div>
+-      <button class="btn-waka btn-waka-reset" id="waka-reset-btn">↺ change key</button>
+-    </div>
+-  </div>
+-
+-  </div><!-- /col-right -->
+-
+-</main>
++    </footer>
+ 
+-<!-- ═══ STATUS BAR ═══ -->
+-<footer id="statusbar">
+-  <div class="sb-l">
+-    <div class="sb-branch">⎇ main</div>
+-    <span>↑<span class="c-green" id="sb-c">0</span></span>
+-    <span>⚠ <span class="c-amber" id="sb-w">0</span></span>
+   </div>
+-  <div class="sb-mid">
+-    <span><kbd class="kbd">Ctrl+K</kbd> search</span>
+-    <span><kbd class="kbd">Enter</kbd> go</span>
+-  </div>
+-  <div class="sb-r">
+-    <div class="sb-metric">
+-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+-      <span>CPU</span>
+-      <span class="c-amber" id="sb-cpu-pct">—</span>
+-      <div class="sb-metric-bar"><div class="sb-metric-fill sb-cpu-fill" id="sb-cpu-bar"></div></div>
+-    </div>
+-    <div class="sb-metric">
+-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 19v-8a6 6 0 1112 0v8"/><path d="M6 19h12"/></svg>
+-      <span>RAM</span>
+-      <span class="c-amber" id="sb-ram-pct">—</span>
+-      <div class="sb-metric-bar"><div class="sb-metric-fill sb-ram-fill" id="sb-ram-bar"></div></div>
+-    </div>
+-    <span class="sb-sep">│</span>
+-    <span>Ln <span class="c-blue" id="sb-ln">1</span> Col <span class="c-blue" id="sb-col">1</span></span>
+-    <span class="c-green">UTF-8</span>
+-    <span class="c-purple">JavaScript</span>
+-  </div>
+-</footer>
+ 
+-</div>
+-
+-<script src="script.js"></script>
++  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
++  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
++  <script src="script.js"></script>
++  <script src="dog3d.js"></script>
+ </body>
++
+ </html>
+\ No newline at end of file
+diff --git a/script.js b/script.js
+index 1a46e07..fab7f84 100644
+--- a/script.js
++++ b/script.js
+@@ -206,7 +206,8 @@ function doSearch() {
+     const q = $('#searchInput').value.trim();
+     if (!q) return;
+     const url = /^https?:\/\//.test(q) ? q : ENGINES[activeEngine].url + encodeURIComponent(q);
+-    window.open(url, '_blank', 'noopener,noreferrer');
++    $('#searchInput').value = "";
++    window.open(url, '_self', 'noopener,noreferrer');
+ }
+ 
+ $('#s-go').addEventListener('click', doSearch);
+diff --git a/style.css b/style.css
+index cde8796..73ab321 100644
+--- a/style.css
++++ b/style.css
+@@ -5,13 +5,13 @@
+ /* ── Design Tokens ── */
+ :root {
+   /* Backgrounds */
+-  --bg:    #060810;
+-  --bg1:   #0b0e16;
+-  --bg2:   #10141c;
+-  --bg3:   #161b26;
+-  --bg4:   #1c2333;
++  --bg: #060810;
++  --bg1: #0b0e16;
++  --bg2: #10141c;
++  --bg3: #161b26;
++  --bg4: #1c2333;
+   /* Borders */
+-  --line:  #1e2a3a;
++  --line: #1e2a3a;
+   --line2: #2a3a50;
+   /* Accent — Emerald */
+   --g1: #047857;
+@@ -35,7 +35,7 @@
+   --r2: #f87171;
+   --r3: #fca5a5;
+   /* Text */
+-  --tx:  #f1f5f9;
++  --tx: #f1f5f9;
+   --tx2: #cbd5e1;
+   --tx3: #8b9dc3;
+   --tx4: #475b7a;
+@@ -43,14 +43,21 @@
+   --mono: 'Geist Mono', 'Fira Code', 'JetBrains Mono', monospace;
+   --disp: 'Syne', system-ui, sans-serif;
+   /* Spacing & Radius */
+-  --r:  10px;
++  --r: 10px;
+   --rs: 6px;
+ }
+ 
+ /* ── Reset ── */
+-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
++*,
++*::before,
++*::after {
++  box-sizing: border-box;
++  margin: 0;
++  padding: 0;
++}
+ 
+-html, body {
++html,
++body {
+   width: 100%;
+   height: 100%;
+   overflow: hidden;
+@@ -62,10 +69,26 @@ html, body {
+   -moz-osx-font-smoothing: grayscale;
+ }
+ 
+-a { text-decoration: none; color: inherit; }
+-button { font-family: var(--mono); cursor: pointer; border: none; background: none; }
+-textarea, input { font-family: var(--mono); }
+-::selection { background: rgba(16, 185, 129, 0.25); }
++a {
++  text-decoration: none;
++  color: inherit;
++}
++
++button {
++  font-family: var(--mono);
++  cursor: pointer;
++  border: none;
++  background: none;
++}
++
++textarea,
++input {
++  font-family: var(--mono);
++}
++
++::selection {
++  background: rgba(16, 185, 129, 0.25);
++}
+ 
+ /* ═══════════════════════════════════════════════════════
+    BACKGROUND EFFECTS
+@@ -84,6 +107,7 @@ textarea, input { font-family: var(--mono); }
+   z-index: 0;
+   overflow: hidden;
+ }
++
+ .ambient::before {
+   content: '';
+   position: absolute;
+@@ -95,6 +119,7 @@ textarea, input { font-family: var(--mono); }
+   left: -150px;
+   animation: ambientDrift1 22s ease-in-out infinite alternate;
+ }
++
+ .ambient::after {
+   content: '';
+   position: absolute;
+@@ -107,8 +132,17 @@ textarea, input { font-family: var(--mono); }
+   animation: ambientDrift2 28s ease-in-out infinite alternate;
+ }
+ 
+-@keyframes ambientDrift1 { to { transform: translate(130px, 90px); } }
+-@keyframes ambientDrift2 { to { transform: translate(-90px, -70px); } }
++@keyframes ambientDrift1 {
++  to {
++    transform: translate(130px, 90px);
++  }
++}
++
++@keyframes ambientDrift2 {
++  to {
++    transform: translate(-90px, -70px);
++  }
++}
+ 
+ .grid-bg {
+   position: fixed;
+@@ -129,7 +163,7 @@ textarea, input { font-family: var(--mono); }
+   inset: 0;
+   pointer-events: none;
+   z-index: 999;
+-  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.025) 3px, rgba(0,0,0,0.025) 4px);
++  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0, 0, 0, 0.025) 3px, rgba(0, 0, 0, 0.025) 4px);
+ }
+ 
+ /* ═══════════════════════════════════════════════════════
+@@ -146,7 +180,11 @@ textarea, input { font-family: var(--mono); }
+   animation: fadeIn 0.5s ease forwards 0.08s;
+ }
+ 
+-@keyframes fadeIn { to { opacity: 1; } }
++@keyframes fadeIn {
++  to {
++    opacity: 1;
++  }
++}
+ 
+ /* ═══════════════════════════════════════════════════════
+    TOP BAR
+@@ -163,6 +201,7 @@ textarea, input { font-family: var(--mono); }
+   position: relative;
+   overflow: hidden;
+ }
++
+ #topbar::after {
+   content: '';
+   position: absolute;
+@@ -174,7 +213,11 @@ textarea, input { font-family: var(--mono); }
+   opacity: 0.4;
+ }
+ 
+-.tb-l { display: flex; align-items: center; gap: 16px; }
++.tb-l {
++  display: flex;
++  align-items: center;
++  gap: 16px;
++}
+ 
+ .tb-prompt {
+   display: flex;
+@@ -187,22 +230,57 @@ textarea, input { font-family: var(--mono); }
+   border-radius: var(--rs);
+   padding: 3px 9px;
+ }
+-.tb-prompt .u { color: var(--g3); }
+-.tb-prompt .h { color: var(--b2); }
+-.tb-prompt .p { color: var(--p2); }
+-.tb-prompt .sym { color: var(--y3); }
+ 
+-.tb-r { display: flex; align-items: center; gap: 10px; }
++.tb-prompt .u {
++  color: var(--g3);
++}
++
++.tb-prompt .h {
++  color: var(--b2);
++}
++
++.tb-prompt .p {
++  color: var(--p2);
++}
++
++.tb-prompt .sym {
++  color: var(--y3);
++}
++
++.tb-r {
++  display: flex;
++  align-items: center;
++  gap: 10px;
++}
+ 
+ /* Speed meter */
+ .speed-chip {
+   gap: 3px !important;
+   font-variant-numeric: tabular-nums;
+ }
+-.speed-icon { color: var(--g3); flex-shrink: 0; }
+-.speed-down-icon { color: var(--b2); }
+-.speed-up { color: var(--g3); font-weight: 600; font-size: 10.5px; min-width: 52px; }
+-.speed-down { color: var(--b2); font-weight: 600; font-size: 10.5px; min-width: 52px; }
++
++.speed-icon {
++  color: var(--g3);
++  flex-shrink: 0;
++}
++
++.speed-down-icon {
++  color: var(--b2);
++}
++
++.speed-up {
++  color: var(--g3);
++  font-weight: 600;
++  font-size: 10.5px;
++  min-width: 52px;
++}
++
++.speed-down {
++  color: var(--b2);
++  font-weight: 600;
++  font-size: 10.5px;
++  min-width: 52px;
++}
+ 
+ .chip {
+   display: flex;
+@@ -216,21 +294,28 @@ textarea, input { font-family: var(--mono); }
+ }
+ 
+ .dot-g {
+-  width: 5px; height: 5px;
++  width: 5px;
++  height: 5px;
+   border-radius: 50%;
+   background: var(--g3);
+   box-shadow: 0 0 5px var(--g3);
+   animation: dotPulse 2s ease infinite;
+ }
++
+ .dot-y {
+-  width: 5px; height: 5px;
++  width: 5px;
++  height: 5px;
+   border-radius: 50%;
+   background: var(--y2);
+   box-shadow: 0 0 5px var(--y2);
+   animation: dotPulse 2s ease infinite;
+ }
+ 
+-@keyframes dotPulse { 50% { opacity: 0.35; } }
++@keyframes dotPulse {
++  50% {
++    opacity: 0.35;
++  }
++}
+ 
+ #tbclock {
+   font-size: 13px;
+@@ -271,10 +356,12 @@ textarea, input { font-family: var(--mono); }
+   transition: border-color 0.25s, box-shadow 0.25s;
+   animation: cardSlideUp 0.45s ease both;
+ }
++
+ .card:hover {
+   border-color: var(--line2);
+-  box-shadow: 0 8px 30px rgba(0,0,0,0.38), 0 0 0 1px rgba(16, 185, 129, 0.04);
++  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(16, 185, 129, 0.04);
+ }
++
+ .card::before {
+   content: '';
+   position: absolute;
+@@ -284,23 +371,62 @@ textarea, input { font-family: var(--mono); }
+   transition: opacity 0.3s;
+   pointer-events: none;
+ }
+-.card:hover::before { opacity: 1; }
++
++.card:hover::before {
++  opacity: 1;
++}
+ 
+ @keyframes cardSlideUp {
+-  from { opacity: 0; transform: translateY(12px); }
+-  to   { opacity: 1; transform: translateY(0); }
++  from {
++    opacity: 0;
++    transform: translateY(12px);
++  }
++
++  to {
++    opacity: 1;
++    transform: translateY(0);
++  }
++}
++
++.card:nth-child(1) {
++  animation-delay: 0.04s;
+ }
+ 
+-.card:nth-child(1) { animation-delay: 0.04s; }
+-.card:nth-child(2) { animation-delay: 0.08s; }
+-.card:nth-child(3) { animation-delay: 0.12s; }
+-.card:nth-child(4) { animation-delay: 0.16s; }
+-.card:nth-child(5) { animation-delay: 0.20s; }
+-.card:nth-child(6) { animation-delay: 0.24s; }
+-.card:nth-child(7) { animation-delay: 0.28s; }
+-.card:nth-child(8) { animation-delay: 0.32s; }
+-.card:nth-child(9) { animation-delay: 0.36s; }
+-.card:nth-child(10) { animation-delay: 0.40s; }
++.card:nth-child(2) {
++  animation-delay: 0.08s;
++}
++
++.card:nth-child(3) {
++  animation-delay: 0.12s;
++}
++
++.card:nth-child(4) {
++  animation-delay: 0.16s;
++}
++
++.card:nth-child(5) {
++  animation-delay: 0.20s;
++}
++
++.card:nth-child(6) {
++  animation-delay: 0.24s;
++}
++
++.card:nth-child(7) {
++  animation-delay: 0.28s;
++}
++
++.card:nth-child(8) {
++  animation-delay: 0.32s;
++}
++
++.card:nth-child(9) {
++  animation-delay: 0.36s;
++}
++
++.card:nth-child(10) {
++  animation-delay: 0.40s;
++}
+ 
+ /* Card accent line at top */
+ .ca {
+@@ -310,11 +436,26 @@ textarea, input { font-family: var(--mono); }
+   right: 14px;
+   height: 1px;
+ }
+-.ca.g { background: linear-gradient(90deg, transparent, var(--g3), transparent); }
+-.ca.b { background: linear-gradient(90deg, transparent, var(--b2), transparent); }
+-.ca.p { background: linear-gradient(90deg, transparent, var(--p2), transparent); }
+-.ca.y { background: linear-gradient(90deg, transparent, var(--y2), transparent); }
+-.ca.r { background: linear-gradient(90deg, transparent, var(--r2), transparent); }
++
++.ca.g {
++  background: linear-gradient(90deg, transparent, var(--g3), transparent);
++}
++
++.ca.b {
++  background: linear-gradient(90deg, transparent, var(--b2), transparent);
++}
++
++.ca.p {
++  background: linear-gradient(90deg, transparent, var(--p2), transparent);
++}
++
++.ca.y {
++  background: linear-gradient(90deg, transparent, var(--y2), transparent);
++}
++
++.ca.r {
++  background: linear-gradient(90deg, transparent, var(--r2), transparent);
++}
+ 
+ /* Card header */
+ .ch {
+@@ -323,6 +464,7 @@ textarea, input { font-family: var(--mono); }
+   justify-content: space-between;
+   margin-bottom: 8px;
+ }
++
+ .ct {
+   font-size: 10px;
+   text-transform: uppercase;
+@@ -336,9 +478,17 @@ textarea, input { font-family: var(--mono); }
+ /* ═══════════════════════════════════════════════════════
+    CLOCK CARD
+    ═══════════════════════════════════════════════════════ */
+-.clock-card { display: flex; flex-direction: column; justify-content: center; padding: 24px 16px; }
++.clock-card {
++  display: flex;
++  flex-direction: column;
++  justify-content: center;
++  padding: 24px 16px;
++}
+ 
+-.clock-main { text-align: center; padding: 2px 0 0; }
++.clock-main {
++  text-align: center;
++  padding: 2px 0 0;
++}
+ 
+ .clock-time {
+   font-family: var(--disp);
+@@ -352,12 +502,14 @@ textarea, input { font-family: var(--mono); }
+   background-clip: text;
+   filter: drop-shadow(0 0 18px rgba(251, 191, 36, 0.25));
+ }
++
+ .clock-sec {
+   font-size: 26px;
+   font-weight: 300;
+   color: var(--y2);
+   letter-spacing: -1px;
+ }
++
+ .clock-date {
+   font-size: 11px;
+   color: var(--y3);
+@@ -365,12 +517,14 @@ textarea, input { font-family: var(--mono); }
+   text-transform: uppercase;
+   margin-top: 6px;
+ }
++
+ .clock-meta {
+   display: flex;
+   justify-content: center;
+   gap: 8px;
+   margin-top: 8px;
+ }
++
+ .cb {
+   display: flex;
+   align-items: center;
+@@ -382,13 +536,26 @@ textarea, input { font-family: var(--mono); }
+   padding: 3px 9px;
+   border-radius: 20px;
+ }
+-.cb span { color: var(--y2); font-weight: 600; }
++
++.cb span {
++  color: var(--y2);
++  font-weight: 600;
++}
+ 
+ /* ═══════════════════════════════════════════════════════
+    GITHUB CARD
+    ═══════════════════════════════════════════════════════ */
+-.gh-card { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
+-.gh-card::-webkit-scrollbar { display: none; }
++.gh-card {
++  flex: 1;
++  min-height: 0;
++  overflow-y: auto;
++  scrollbar-width: none;
++  -ms-overflow-style: none;
++}
++
++.gh-card::-webkit-scrollbar {
++  display: none;
++}
+ 
+ .gh-input {
+   flex: 1;
+@@ -402,11 +569,15 @@ textarea, input { font-family: var(--mono); }
+   outline: none;
+   transition: border-color 0.2s, box-shadow 0.2s;
+ }
++
+ .gh-input:focus {
+   border-color: var(--g3);
+   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+ }
+-.gh-input::placeholder { color: var(--tx3); }
++
++.gh-input::placeholder {
++  color: var(--tx3);
++}
+ 
+ .btn-p {
+   padding: 7px 13px;
+@@ -419,6 +590,7 @@ textarea, input { font-family: var(--mono); }
+   transition: all 0.2s;
+   white-space: nowrap;
+ }
++
+ .btn-p:hover {
+   background: linear-gradient(135deg, var(--g3), var(--g2));
+   box-shadow: 0 0 14px rgba(16, 185, 129, 0.22);
+@@ -439,6 +611,7 @@ textarea, input { font-family: var(--mono); }
+   gap: 6px;
+   margin-bottom: 10px;
+ }
++
+ .gh-stat {
+   background: var(--bg3);
+   border: 1px solid var(--line);
+@@ -446,12 +619,14 @@ textarea, input { font-family: var(--mono); }
+   padding: 7px 5px;
+   text-align: center;
+ }
++
+ .gh-stat-v {
+   font-size: 15px;
+   font-weight: 700;
+   color: var(--g3);
+   font-family: var(--disp);
+ }
++
+ .gh-stat-k {
+   font-size: 9.5px;
+   color: var(--tx2);
+@@ -468,14 +643,24 @@ textarea, input { font-family: var(--mono); }
+   font-size: 11px;
+   margin-bottom: 4px;
+ }
++
+ .lname {
+   color: var(--tx2);
+   display: flex;
+   align-items: center;
+   gap: 4px;
+ }
+-.ldot { width: 7px; height: 7px; border-radius: 50%; }
+-.lpct { color: var(--tx3); }
++
++.ldot {
++  width: 7px;
++  height: 7px;
++  border-radius: 50%;
++}
++
++.lpct {
++  color: var(--tx3);
++}
++
+ .lbar {
+   height: 3px;
+   background: var(--bg3);
+@@ -483,6 +668,7 @@ textarea, input { font-family: var(--mono); }
+   margin-bottom: 6px;
+   overflow: hidden;
+ }
++
+ .lbar-f {
+   height: 100%;
+   border-radius: 2px;
+@@ -492,15 +678,20 @@ textarea, input { font-family: var(--mono); }
+ /* ═══════════════════════════════════════════════════════
+    LINKS CARD
+    ═══════════════════════════════════════════════════════ */
+-.links-card { }
++.links-card {}
+ 
+-.term-card { flex: 1; display: flex; flex-direction: column; }
++.term-card {
++  flex: 1;
++  display: flex;
++  flex-direction: column;
++}
+ 
+ .links-grid {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 5px;
+ }
++
+ .li {
+   display: flex;
+   align-items: center;
+@@ -513,12 +704,14 @@ textarea, input { font-family: var(--mono); }
+   transition: all 0.14s;
+   text-decoration: none;
+ }
++
+ .li:hover {
+   border-color: var(--line2);
+   background: var(--bg4);
+   transform: translateY(-1px);
+-  box-shadow: 0 4px 10px rgba(0,0,0,0.28);
++  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.28);
+ }
++
+ .li-icon {
+   font-size: 13px;
+   width: 22px;
+@@ -529,6 +722,7 @@ textarea, input { font-family: var(--mono); }
+   border-radius: 5px;
+   flex-shrink: 0;
+ }
++
+ .li-text {
+   font-size: 11.5px;
+   color: var(--tx);
+@@ -549,7 +743,7 @@ textarea, input { font-family: var(--mono); }
+ .sf {
+   display: flex;
+   align-items: center;
+-  background: linear-gradient(135deg, var(--bg3) 0%, rgba(16,20,28,0.95) 100%);
++  background: linear-gradient(135deg, var(--bg3) 0%, rgba(16, 20, 28, 0.95) 100%);
+   border: 1px solid var(--line2);
+   border-radius: 12px;
+   overflow: hidden;
+@@ -557,13 +751,14 @@ textarea, input { font-family: var(--mono); }
+   margin-bottom: 6px;
+   position: relative;
+ }
++
+ .sf::before {
+   content: '';
+   position: absolute;
+   inset: 0;
+   border-radius: 12px;
+   padding: 1px;
+-  background: linear-gradient(135deg, transparent, rgba(66,133,244,0.15), transparent, rgba(34,211,160,0.1));
++  background: linear-gradient(135deg, transparent, rgba(66, 133, 244, 0.15), transparent, rgba(34, 211, 160, 0.1));
+   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+   -webkit-mask-composite: xor;
+@@ -572,11 +767,16 @@ textarea, input { font-family: var(--mono); }
+   opacity: 0;
+   transition: opacity 0.3s;
+ }
+-.sf:focus-within::before { opacity: 1; }
++
++.sf:focus-within::before {
++  opacity: 1;
++}
++
+ .sf:focus-within {
+   border-color: var(--search-accent);
+-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--search-accent) 12%, transparent), 0 0 30px color-mix(in srgb, var(--search-accent) 8%, transparent), 0 4px 20px rgba(0,0,0,0.3);
++  box-shadow: 0 0 0 3px color-mix(in srgb, var(--search-accent) 12%, transparent), 0 0 30px color-mix(in srgb, var(--search-accent) 8%, transparent), 0 4px 20px rgba(0, 0, 0, 0.3);
+ }
++
+ .eng-badge {
+   display: flex;
+   align-items: center;
+@@ -587,13 +787,17 @@ textarea, input { font-family: var(--mono); }
+   font-size: 11px;
+   font-weight: 600;
+   color: var(--tx);
+-  background: rgba(255,255,255,0.02);
++  background: rgba(255, 255, 255, 0.02);
+   cursor: pointer;
+   white-space: nowrap;
+   flex-shrink: 0;
+   transition: background 0.2s;
+ }
+-.eng-badge:hover { background: rgba(255,255,255,0.05); }
++
++.eng-badge:hover {
++  background: rgba(255, 255, 255, 0.05);
++}
++
+ .eng-badge-icon {
+   display: flex;
+   align-items: center;
+@@ -612,7 +816,10 @@ textarea, input { font-family: var(--mono); }
+   height: 38px;
+   caret-color: var(--search-accent);
+ }
+-#searchInput::placeholder { color: var(--tx4); }
++
++#searchInput::placeholder {
++  color: var(--tx4);
++}
+ 
+ .s-go {
+   padding: 0 14px;
+@@ -624,12 +831,18 @@ textarea, input { font-family: var(--mono); }
+   font-weight: 700;
+   transition: background 0.2s, color 0.2s;
+ }
++
+ .s-go:hover {
+   background: linear-gradient(135deg, color-mix(in srgb, var(--search-accent) 20%, transparent), color-mix(in srgb, var(--search-accent) 10%, transparent));
+   color: var(--tx);
+ }
+ 
+-.epills { display: flex; gap: 4px; flex-wrap: wrap; }
++.epills {
++  display: flex;
++  gap: 4px;
++  flex-wrap: wrap;
++}
++
+ .epill {
+   display: flex;
+   align-items: center;
+@@ -645,18 +858,21 @@ textarea, input { font-family: var(--mono); }
+   transition: all 0.2s;
+   background: transparent;
+ }
++
+ .epill:hover {
+   border-color: var(--tx2);
+   color: var(--tx2);
+-  background: rgba(255,255,255,0.03);
++  background: rgba(255, 255, 255, 0.03);
+   transform: translateY(-1px);
+ }
++
+ .epill.active {
+   border-color: var(--search-accent);
+   color: var(--tx);
+   background: color-mix(in srgb, var(--search-accent) 10%, transparent);
+   box-shadow: 0 0 10px color-mix(in srgb, var(--search-accent) 15%, transparent);
+ }
++
+ .epill-icon {
+   display: flex;
+   align-items: center;
+@@ -667,10 +883,24 @@ textarea, input { font-family: var(--mono); }
+ /* ═══════════════════════════════════════════════════════
+    CONTRIBUTION HEATMAP
+    ═══════════════════════════════════════════════════════ */
+-.contrib-card { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
+-.contrib-card::-webkit-scrollbar { display: none; }
++.contrib-card {
++  flex: 1;
++  min-height: 0;
++  overflow: hidden;
++  display: flex;
++  flex-direction: column;
++}
+ 
+-#contrib-content { flex: 1; min-height: 0; overflow-x: auto; overflow-y: auto; }
++.contrib-card::-webkit-scrollbar {
++  display: none;
++}
++
++#contrib-content {
++  flex: 1;
++  min-height: 0;
++  overflow-x: auto;
++  overflow-y: auto;
++}
+ 
+ .contrib-months {
+   display: flex;
+@@ -680,7 +910,12 @@ textarea, input { font-family: var(--mono); }
+   text-transform: uppercase;
+   letter-spacing: 0.5px;
+ }
+-.contrib-wrap { display: flex; gap: 8px; }
++
++.contrib-wrap {
++  display: flex;
++  gap: 8px;
++}
++
+ .c-days {
+   display: flex;
+   flex-direction: column;
+@@ -688,13 +923,26 @@ textarea, input { font-family: var(--mono); }
+   padding-top: 2px;
+   flex-shrink: 0;
+ }
+-.c-day-l { font-size: 8px; color: var(--tx3); height: 10px; line-height: 10px; }
++
++.c-day-l {
++  font-size: 8px;
++  color: var(--tx3);
++  height: 10px;
++  line-height: 10px;
++}
++
+ .cgrid {
+   flex: 1;
+   display: grid;
+   gap: 2.5px;
+ }
+-.cweek { display: flex; flex-direction: column; gap: 2.5px; }
++
++.cweek {
++  display: flex;
++  flex-direction: column;
++  gap: 2.5px;
++}
++
+ .ccell {
+   border-radius: 2px;
+   aspect-ratio: 1;
+@@ -703,12 +951,34 @@ textarea, input { font-family: var(--mono); }
+   transition: transform 0.1s, filter 0.1s;
+   cursor: crosshair;
+ }
+-.ccell:hover { transform: scale(1.7); z-index: 10; filter: brightness(1.5); }
+-.ccell[data-l="0"] { background: var(--bg3); border: 1px solid rgba(255,255,255,0.08); }
+-.ccell[data-l="1"] { background: #064e3b; }
+-.ccell[data-l="2"] { background: #059669; }
+-.ccell[data-l="3"] { background: #10b981; }
+-.ccell[data-l="4"] { background: #34d399; box-shadow: 0 0 4px rgba(52, 211, 153, 0.3); }
++
++.ccell:hover {
++  transform: scale(1.7);
++  z-index: 10;
++  filter: brightness(1.5);
++}
++
++.ccell[data-l="0"] {
++  background: var(--bg3);
++  border: 1px solid rgba(255, 255, 255, 0.08);
++}
++
++.ccell[data-l="1"] {
++  background: #064e3b;
++}
++
++.ccell[data-l="2"] {
++  background: #059669;
++}
++
++.ccell[data-l="3"] {
++  background: #10b981;
++}
++
++.ccell[data-l="4"] {
++  background: #34d399;
++  box-shadow: 0 0 4px rgba(52, 211, 153, 0.3);
++}
+ 
+ .c-legend {
+   display: flex;
+@@ -719,11 +989,38 @@ textarea, input { font-family: var(--mono); }
+   color: var(--tx3);
+   justify-content: flex-end;
+ }
+-.lcells { display: flex; gap: 2.5px; }
+-.lc { width: 10px; height: 10px; border-radius: 2px; }
+-.c-nums { display: flex; gap: 22px; margin-top: 12px; flex-wrap: wrap; }
+-.cnum-v { font-size: 20px; font-weight: 700; font-family: var(--disp); color: var(--g3); }
+-.cnum-k { font-size: 10px; color: var(--tx3); text-transform: uppercase; letter-spacing: 1px; }
++
++.lcells {
++  display: flex;
++  gap: 2.5px;
++}
++
++.lc {
++  width: 10px;
++  height: 10px;
++  border-radius: 2px;
++}
++
++.c-nums {
++  display: flex;
++  gap: 22px;
++  margin-top: 12px;
++  flex-wrap: wrap;
++}
++
++.cnum-v {
++  font-size: 20px;
++  font-weight: 700;
++  font-family: var(--disp);
++  color: var(--g3);
++}
++
++.cnum-k {
++  font-size: 10px;
++  color: var(--tx3);
++  text-transform: uppercase;
++  letter-spacing: 1px;
++}
+ 
+ /* ═══════════════════════════════════════════════════════
+    TOOLTIP
+@@ -739,16 +1036,27 @@ textarea, input { font-family: var(--mono); }
+   pointer-events: none;
+   z-index: 1000;
+   display: none;
+-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
++  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+   white-space: nowrap;
+ }
+-.tooltip b { color: var(--g3); }
++
++.tooltip b {
++  color: var(--g3);
++}
+ 
+ /* ═══════════════════════════════════════════════════════
+    LEETCODE CARD
+    ═══════════════════════════════════════════════════════ */
+-.lc-card { min-height: 0; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
+-.lc-card::-webkit-scrollbar { display: none; }
++.lc-card {
++  min-height: 0;
++  overflow-y: auto;
++  scrollbar-width: none;
++  -ms-overflow-style: none;
++}
++
++.lc-card::-webkit-scrollbar {
++  display: none;
++}
+ 
+ .lc-input {
+   flex: 1;
+@@ -762,11 +1070,15 @@ textarea, input { font-family: var(--mono); }
+   outline: none;
+   transition: border-color 0.2s, box-shadow 0.2s;
+ }
++
+ .lc-input:focus {
+   border-color: var(--y2);
+   box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+ }
+-.lc-input::placeholder { color: var(--tx3); }
++
++.lc-input::placeholder {
++  color: var(--tx3);
++}
+ 
+ .btn-lc {
+   padding: 7px 13px;
+@@ -779,6 +1091,7 @@ textarea, input { font-family: var(--mono); }
+   transition: all 0.2s;
+   white-space: nowrap;
+ }
++
+ .btn-lc:hover {
+   background: linear-gradient(135deg, var(--y2), var(--y1));
+   box-shadow: 0 0 14px rgba(245, 158, 11, 0.22);
+@@ -792,6 +1105,7 @@ textarea, input { font-family: var(--mono); }
+   gap: 6px;
+   margin-bottom: 10px;
+ }
++
+ .lc-stat {
+   background: var(--bg3);
+   border: 1px solid var(--line);
+@@ -799,15 +1113,29 @@ textarea, input { font-family: var(--mono); }
+   padding: 6px 5px;
+   text-align: center;
+ }
++
+ .lc-stat-v {
+   font-size: 14px;
+   font-weight: 700;
+   font-family: var(--disp);
+ }
+-.lc-stat-v.easy { color: var(--g3); }
+-.lc-stat-v.med  { color: var(--y2); }
+-.lc-stat-v.hard { color: var(--r2); }
+-.lc-stat-v.total { color: var(--b2); }
++
++.lc-stat-v.easy {
++  color: var(--g3);
++}
++
++.lc-stat-v.med {
++  color: var(--y2);
++}
++
++.lc-stat-v.hard {
++  color: var(--r2);
++}
++
++.lc-stat-v.total {
++  color: var(--b2);
++}
++
+ .lc-stat-k {
+   font-size: 9px;
+   color: var(--tx3);
+@@ -824,34 +1152,77 @@ textarea, input { font-family: var(--mono); }
+   padding: 5px 0;
+   border-bottom: 1px solid var(--line);
+ }
+-.lc-prog-row:last-child { border-bottom: none; padding-bottom: 0; }
++
++.lc-prog-row:last-child {
++  border-bottom: none;
++  padding-bottom: 0;
++}
++
+ .lc-prog-top {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   font-size: 11px;
+ }
+-.lc-prog-label { color: var(--tx3); display: flex; align-items: center; gap: 5px; }
+-.lc-prog-label .ldot { width: 6px; height: 6px; border-radius: 50%; }
+-.lc-prog-val { font-weight: 600; font-size: 11px; }
+-.lc-prog-val.easy { color: var(--g3); }
+-.lc-prog-val.med  { color: var(--y2); }
+-.lc-prog-val.hard { color: var(--r2); }
+-.lc-prog-bar {
++
++.lc-prog-label {
++  color: var(--tx3);
++  display: flex;
++  align-items: center;
++  gap: 5px;
++}
++
++.lc-prog-label .ldot {
++  width: 6px;
++  height: 6px;
++  border-radius: 50%;
++}
++
++.lc-prog-val {
++  font-weight: 600;
++  font-size: 11px;
++}
++
++.lc-prog-val.easy {
++  color: var(--g3);
++}
++
++.lc-prog-val.med {
++  color: var(--y2);
++}
++
++.lc-prog-val.hard {
++  color: var(--r2);
++}
++
++.lc-prog-bar {
+   height: 4px;
+   background: var(--bg4);
+   border-radius: 2px;
+   overflow: hidden;
+   margin-top: 3px;
+ }
++
+ .lc-prog-fill {
+   height: 100%;
+   border-radius: 2px;
+   transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+ }
+-.lc-prog-fill.easy { background: linear-gradient(90deg, var(--g1), var(--g3)); box-shadow: 0 0 6px rgba(16, 185, 129, 0.3); }
+-.lc-prog-fill.med  { background: linear-gradient(90deg, var(--y1), var(--y2)); box-shadow: 0 0 6px rgba(245, 158, 11, 0.3); }
+-.lc-prog-fill.hard { background: linear-gradient(90deg, var(--r1), var(--r2)); box-shadow: 0 0 6px rgba(239, 68, 68, 0.3); }
++
++.lc-prog-fill.easy {
++  background: linear-gradient(90deg, var(--g1), var(--g3));
++  box-shadow: 0 0 6px rgba(16, 185, 129, 0.3);
++}
++
++.lc-prog-fill.med {
++  background: linear-gradient(90deg, var(--y1), var(--y2));
++  box-shadow: 0 0 6px rgba(245, 158, 11, 0.3);
++}
++
++.lc-prog-fill.hard {
++  background: linear-gradient(90deg, var(--r1), var(--r2));
++  box-shadow: 0 0 6px rgba(239, 68, 68, 0.3);
++}
+ 
+ /* LC Total Ring */
+ .lc-ring-wrap {
+@@ -861,20 +1232,54 @@ textarea, input { font-family: var(--mono); }
+   gap: 14px;
+   margin-bottom: 10px;
+ }
+-.lc-ring-svg { width: 110px; height: 110px; transform: rotate(-90deg); }
+-.lc-ring-track { fill: none; stroke: var(--bg4); stroke-width: 5; }
+-.lc-ring-easy  { fill: none; stroke: var(--g3); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1); }
+-.lc-ring-med   { fill: none; stroke: var(--y2); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1); }
+-.lc-ring-hard  { fill: none; stroke: var(--r2); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1); }
++
++.lc-ring-svg {
++  width: 110px;
++  height: 110px;
++  transform: rotate(-90deg);
++}
++
++.lc-ring-track {
++  fill: none;
++  stroke: var(--bg4);
++  stroke-width: 5;
++}
++
++.lc-ring-easy {
++  fill: none;
++  stroke: var(--g3);
++  stroke-width: 5;
++  stroke-linecap: round;
++  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
++}
++
++.lc-ring-med {
++  fill: none;
++  stroke: var(--y2);
++  stroke-width: 5;
++  stroke-linecap: round;
++  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
++}
++
++.lc-ring-hard {
++  fill: none;
++  stroke: var(--r2);
++  stroke-width: 5;
++  stroke-linecap: round;
++  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
++}
++
+ .lc-ring-center {
+   text-align: center;
+ }
++
+ .lc-ring-num {
+   font-family: var(--disp);
+   font-size: 28px;
+   font-weight: 700;
+   color: var(--tx);
+ }
++
+ .lc-ring-label {
+   font-size: 9px;
+   color: var(--tx3);
+@@ -885,7 +1290,7 @@ textarea, input { font-family: var(--mono); }
+ /* ═══════════════════════════════════════════════════════
+    REPOS CARD
+    ═══════════════════════════════════════════════════════ */
+-.repos-card { }
++.repos-card {}
+ 
+ .ri {
+   padding: 8px 9px;
+@@ -898,14 +1303,25 @@ textarea, input { font-family: var(--mono); }
+   text-decoration: none;
+   display: block;
+ }
+-.ri:last-child { margin-bottom: 0; }
++
++.ri:last-child {
++  margin-bottom: 0;
++}
++
+ .ri:hover {
+   border-color: var(--g3);
+   background: var(--bg4);
+   transform: translateX(2px);
+   box-shadow: -2px 0 0 var(--g3);
+ }
+-.ri-name { font-size: 12px; font-weight: 600; color: var(--b2); margin-bottom: 2px; }
++
++.ri-name {
++  font-size: 12px;
++  font-weight: 600;
++  color: var(--b2);
++  margin-bottom: 2px;
++}
++
+ .ri-desc {
+   font-size: 10.5px;
+   color: var(--tx2);
+@@ -914,7 +1330,13 @@ textarea, input { font-family: var(--mono); }
+   overflow: hidden;
+   text-overflow: ellipsis;
+ }
+-.ri-meta { display: flex; gap: 9px; font-size: 10.5px; color: var(--tx2); }
++
++.ri-meta {
++  display: flex;
++  gap: 9px;
++  font-size: 10.5px;
++  color: var(--tx2);
++}
+ 
+ /* ═══════════════════════════════════════════════════════
+    SCRATCH PAD
+@@ -928,6 +1350,7 @@ textarea, input { font-family: var(--mono); }
+   border-radius: var(--rs);
+   overflow: hidden;
+ }
++
+ .nl {
+   padding: 9px 7px;
+   background: var(--bg2);
+@@ -940,6 +1363,7 @@ textarea, input { font-family: var(--mono); }
+   -webkit-user-select: none;
+   user-select: none;
+ }
++
+ #notepad {
+   flex: 1;
+   background: transparent;
+@@ -953,8 +1377,121 @@ textarea, input { font-family: var(--mono); }
+   resize: none;
+   line-height: 1.72;
+ }
+-#notepad::placeholder { color: var(--tx3); }
+ 
++#notepad::placeholder {
++  color: var(--tx3);
++}
++
++/* ═══════════════════════════════════════════════════════
++   DEVELOPER PET DOG
++   ═══════════════════════════════════════════════════════ */
++.pet-card {
++  flex: 1;
++  display: flex;
++  flex-direction: column;
++  min-height: 0;
++}
++
++.pet-scene {
++  position: relative;
++  flex: 1;
++  min-height: 160px;
++  border-radius: var(--rs);
++  overflow: hidden;
++  background: linear-gradient(180deg, #0c1018 0%, #141c2a 60%, #1a2636 100%);
++  border: 1px solid var(--line);
++  cursor: grab;
++}
++
++.pet-scene:active {
++  cursor: grabbing;
++}
++
++#dog-canvas {
++  width: 100%;
++  height: 100%;
++  display: block;
++}
++
++/* Status indicator */
++.pet-status {
++  display: flex;
++  align-items: center;
++  gap: 5px;
++  font-size: 9.5px;
++  color: var(--tx3);
++  text-transform: uppercase;
++  letter-spacing: 1.2px;
++}
++
++.pet-status-dot {
++  width: 6px;
++  height: 6px;
++  border-radius: 50%;
++  background: var(--g3);
++  box-shadow: 0 0 6px var(--g3);
++  animation: dotPulse 2s ease infinite;
++  transition: background 0.3s, box-shadow 0.3s;
++}
++
++.pet-status-dot.sleeping {
++  background: var(--b2);
++  box-shadow: 0 0 6px var(--b2);
++}
++
++.pet-status-dot.happy {
++  background: var(--y2);
++  box-shadow: 0 0 8px var(--y2);
++}
++
++/* Speech Bubble */
++.pet-bubble {
++  position: absolute;
++  bottom: 75%;
++  left: 50%;
++  transform: translateX(-50%);
++  background: rgba(12, 16, 28, 0.9);
++  backdrop-filter: blur(12px);
++  -webkit-backdrop-filter: blur(12px);
++  border: 1px solid rgba(34, 211, 160, 0.2);
++  border-radius: 10px;
++  padding: 7px 12px;
++  font-size: 11px;
++  color: var(--tx);
++  white-space: nowrap;
++  z-index: 10;
++  pointer-events: none;
++  animation: bubbleFadeIn 0.35s ease;
++  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(34, 211, 160, 0.08);
++}
++
++.pet-bubble.hidden {
++  display: none;
++}
++
++.pet-bubble-arrow {
++  position: absolute;
++  bottom: -6px;
++  left: 50%;
++  transform: translateX(-50%);
++  width: 0;
++  height: 0;
++  border-left: 6px solid transparent;
++  border-right: 6px solid transparent;
++  border-top: 6px solid rgba(12, 16, 28, 0.9);
++}
++
++@keyframes bubbleFadeIn {
++  from {
++    opacity: 0;
++    transform: translateX(-50%) translateY(5px);
++  }
++
++  to {
++    opacity: 1;
++    transform: translateX(-50%) translateY(0);
++  }
++}
+ 
+ /* ═══════════════════════════════════════════════════════
+    STATUS BAR
+@@ -971,8 +1508,22 @@ textarea, input { font-family: var(--mono); }
+   font-size: 10.5px;
+   color: var(--tx2);
+ }
+-.sb-l, .sb-r { display: flex; align-items: center; gap: 12px; }
+-.sb-branch { display: flex; align-items: center; gap: 4px; color: var(--p2); font-weight: 600; }
++
++.sb-l,
++.sb-r {
++  display: flex;
++  align-items: center;
++  gap: 12px;
++}
++
++.sb-branch {
++  display: flex;
++  align-items: center;
++  gap: 4px;
++  color: var(--p2);
++  font-weight: 600;
++}
++
+ .kbd {
+   display: inline-flex;
+   padding: 1px 5px;
+@@ -995,7 +1546,12 @@ textarea, input { font-family: var(--mono); }
+   animation: spin 0.7s linear infinite;
+   display: inline-block;
+ }
+-@keyframes spin { to { transform: rotate(360deg); } }
++
++@keyframes spin {
++  to {
++    transform: rotate(360deg);
++  }
++}
+ 
+ .badge-g {
+   display: inline-flex;
+@@ -1008,6 +1564,7 @@ textarea, input { font-family: var(--mono); }
+   color: var(--g3);
+   border: 1px solid rgba(16, 185, 129, 0.2);
+ }
++
+ .badge-b {
+   display: inline-flex;
+   align-items: center;
+@@ -1019,6 +1576,7 @@ textarea, input { font-family: var(--mono); }
+   color: var(--b2);
+   border: 1px solid rgba(59, 130, 246, 0.2);
+ }
++
+ .badge-y {
+   display: inline-flex;
+   align-items: center;
+@@ -1031,7 +1589,12 @@ textarea, input { font-family: var(--mono); }
+   border: 1px solid rgba(245, 158, 11, 0.2);
+ }
+ 
+-.hr { height: 1px; background: var(--line); margin: 9px 0; }
++.hr {
++  height: 1px;
++  background: var(--line);
++  margin: 9px 0;
++}
++
+ .ls {
+   display: flex;
+   align-items: center;
+@@ -1043,9 +1606,19 @@ textarea, input { font-family: var(--mono); }
+ }
+ 
+ /* Scrollbar */
+-::-webkit-scrollbar { width: 3px; height: 3px; }
+-::-webkit-scrollbar-track { background: transparent; }
+-::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 2px; }
++::-webkit-scrollbar {
++  width: 3px;
++  height: 3px;
++}
++
++::-webkit-scrollbar-track {
++  background: transparent;
++}
++
++::-webkit-scrollbar-thumb {
++  background: var(--line2);
++  border-radius: 2px;
++}
+ 
+ /* ═══════════════════════════════════════════════════════
+    PROGRESS BARS (Metrics)
+@@ -1057,19 +1630,44 @@ textarea, input { font-family: var(--mono); }
+   padding: 7px 0;
+   border-bottom: 1px solid var(--line);
+ }
+-.mrow:last-child { border-bottom: none; padding-bottom: 0; }
++
++.mrow:last-child {
++  border-bottom: none;
++  padding-bottom: 0;
++}
++
+ .mtop {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   font-size: 11px;
+ }
+-.mkey { color: var(--tx3); }
+-.mval { font-weight: 600; font-size: 12px; }
+-.mval.g { color: var(--g3); }
+-.mval.y { color: var(--y2); }
+-.mval.r { color: var(--r2); }
+-.mval.b { color: var(--b2); }
++
++.mkey {
++  color: var(--tx3);
++}
++
++.mval {
++  font-weight: 600;
++  font-size: 12px;
++}
++
++.mval.g {
++  color: var(--g3);
++}
++
++.mval.y {
++  color: var(--y2);
++}
++
++.mval.r {
++  color: var(--r2);
++}
++
++.mval.b {
++  color: var(--b2);
++}
++
+ .prog {
+   height: 2px;
+   background: var(--bg4);
+@@ -1077,95 +1675,307 @@ textarea, input { font-family: var(--mono); }
+   overflow: hidden;
+   margin-top: 4px;
+ }
++
+ .pf {
+   height: 100%;
+   border-radius: 2px;
+   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+ }
+-.pf.g { background: linear-gradient(90deg, var(--g2), var(--g3)); box-shadow: 0 0 6px rgba(16, 185, 129, 0.35); }
+-.pf.y { background: linear-gradient(90deg, var(--y1), var(--y2)); }
+-.pf.r { background: linear-gradient(90deg, var(--r1), var(--r2)); }
+-.pf.b { background: linear-gradient(90deg, var(--b1), var(--b2)); }
++
++.pf.g {
++  background: linear-gradient(90deg, var(--g2), var(--g3));
++  box-shadow: 0 0 6px rgba(16, 185, 129, 0.35);
++}
++
++.pf.y {
++  background: linear-gradient(90deg, var(--y1), var(--y2));
++}
++
++.pf.r {
++  background: linear-gradient(90deg, var(--r1), var(--r2));
++}
++
++.pf.b {
++  background: linear-gradient(90deg, var(--b1), var(--b2));
++}
+ 
+ /* ═══════════════════════════════════════════════════════
+    SEMANTIC & INLINE-REPLACEMENT CLASSES
+    ═══════════════════════════════════════════════════════ */
+ 
+ /* --- State --- */
+-.hidden { display: none; }
++.hidden {
++  display: none;
++}
+ 
+ /* --- Layout --- */
+-.flex-row  { display: flex; gap: 6px; }
+-.flex-mid  { display: flex; gap: 10px; align-items: center; }
++.flex-row {
++  display: flex;
++  gap: 6px;
++}
++
++.flex-mid {
++  display: flex;
++  gap: 10px;
++  align-items: center;
++}
+ 
+ /* --- Colors --- */
+-.c-muted  { color: var(--tx3); }
+-.c-blue   { color: var(--b2); }
+-.c-green  { color: var(--g3); }
+-.c-purple { color: var(--p2); }
+-.c-amber  { color: var(--y2); }
++.c-muted {
++  color: var(--tx3);
++}
++
++.c-blue {
++  color: var(--b2);
++}
++
++.c-green {
++  color: var(--g3);
++}
++
++.c-purple {
++  color: var(--p2);
++}
++
++.c-amber {
++  color: var(--y2);
++}
+ 
+ /* --- Topbar --- */
+-.tb-sep     { color: var(--tx3); }
+-.tb-session { color: var(--tx3); font-size: 10px; }
+-.tb-sid     { color: var(--b2); }
++.tb-sep {
++  color: var(--tx3);
++}
++
++.tb-session {
++  color: var(--tx3);
++  font-size: 10px;
++}
++
++.tb-sid {
++  color: var(--b2);
++}
+ 
+ /* --- Clock --- */
+-.clock-digits { display: flex; align-items: baseline; justify-content: center; gap: 1px; }
++.clock-digits {
++  display: flex;
++  align-items: baseline;
++  justify-content: center;
++  gap: 1px;
++}
+ 
+ /* --- GitHub Card --- */
+-.gh-title-icon { vertical-align: -2px; margin-right: 2px; color: #e6edf3; }
+-.gh-setup-text { font-size: 12px; color: var(--tx2); margin-bottom: 11px; line-height: 1.6; }
+-.gh-header     { display: flex; align-items: center; gap: 11px; margin-bottom: 12px; }
+-.gh-name       { font-family: var(--disp); font-weight: 700; font-size: 14px; }
+-.gh-login      { font-size: 11px; color: var(--tx2); }
+-.gh-bio-text   { font-size: 11px; color: var(--tx2); margin-top: 2px; line-height: 1.4; }
+-.btn-reset     { margin-top: 10px; padding: 5px 10px; font-size: 10px; background: transparent; border-color: var(--tx3); color: var(--tx3); }
++.gh-title-icon {
++  vertical-align: -2px;
++  margin-right: 2px;
++  color: #e6edf3;
++}
++
++.gh-setup-text {
++  font-size: 12px;
++  color: var(--tx2);
++  margin-bottom: 11px;
++  line-height: 1.6;
++}
++
++.gh-header {
++  display: flex;
++  align-items: center;
++  gap: 11px;
++  margin-bottom: 12px;
++}
++
++.gh-name {
++  font-family: var(--disp);
++  font-weight: 700;
++  font-size: 14px;
++}
++
++.gh-login {
++  font-size: 11px;
++  color: var(--tx2);
++}
++
++.gh-bio-text {
++  font-size: 11px;
++  color: var(--tx2);
++  margin-top: 2px;
++  line-height: 1.4;
++}
++
++.btn-reset {
++  margin-top: 10px;
++  padding: 5px 10px;
++  font-size: 10px;
++  background: transparent;
++  border-color: var(--tx3);
++  color: var(--tx3);
++}
+ 
+ /* --- Links Card --- */
+-.sub-label   { font-size: 10px; color: var(--tx2); }
+-.li-icon-gh  { background: rgba(255, 255, 255, 0.05); color: #e6edf3; }
+-.li-icon-lc  { background: rgba(245, 158, 11, 0.1); color: #ffa116; }
+-.li-icon-so  { background: rgba(255, 140, 0, 0.1); color: #f48024; }
+-.li-icon-mdn { background: rgba(59, 130, 246, 0.1); color: #83d0f2; }
+-.li-icon-npm { background: rgba(239, 68, 68, 0.1); color: #cb3837; }
+-.li-icon-dd  { background: rgba(16, 185, 129, 0.1); color: #34d399; }
+-.li-icon-cf  { background: rgba(139, 92, 246, 0.1); color: #a78bfa; }
+-.li-icon-vc  { background: rgba(255, 255, 255, 0.05); color: #e6edf3; }
++.sub-label {
++  font-size: 10px;
++  color: var(--tx2);
++}
++
++.li-icon-gh {
++  background: rgba(255, 255, 255, 0.05);
++  color: #e6edf3;
++}
++
++.li-icon-lc {
++  background: rgba(245, 158, 11, 0.1);
++  color: #ffa116;
++}
++
++.li-icon-so {
++  background: rgba(255, 140, 0, 0.1);
++  color: #f48024;
++}
++
++.li-icon-mdn {
++  background: rgba(59, 130, 246, 0.1);
++  color: #83d0f2;
++}
++
++.li-icon-npm {
++  background: rgba(239, 68, 68, 0.1);
++  color: #cb3837;
++}
++
++.li-icon-dd {
++  background: rgba(16, 185, 129, 0.1);
++  color: #34d399;
++}
++
++.li-icon-cf {
++  background: rgba(139, 92, 246, 0.1);
++  color: #a78bfa;
++}
++
++.li-icon-vc {
++  background: rgba(255, 255, 255, 0.05);
++  color: #e6edf3;
++}
+ 
+ /* --- Search Card --- */
+-.eng-display { font-size: 11px; color: var(--search-accent); font-weight: 600; }
++.eng-display {
++  font-size: 11px;
++  color: var(--search-accent);
++  font-weight: 600;
++}
+ 
+ /* --- Contrib Card --- */
+-.contrib-hdr-r { display: flex; align-items: center; gap: 8px; }
+-.contrib-label { font-size: 11px; color: var(--tx2); }
+-.contrib-empty { padding: 16px 0; }
+-.contrib-hint  { font-size: 11px; color: var(--tx2); }
++.contrib-hdr-r {
++  display: flex;
++  align-items: center;
++  gap: 8px;
++}
++
++.contrib-label {
++  font-size: 11px;
++  color: var(--tx2);
++}
++
++.contrib-empty {
++  padding: 16px 0;
++}
++
++.contrib-hint {
++  font-size: 11px;
++  color: var(--tx2);
++}
+ 
+ /* --- LeetCode Card --- */
+-.lc-title-icon { vertical-align: -2px; margin-right: 2px; color: #fbbf24; }
+-.lc-setup-text  { font-size: 12px; color: var(--tx2); margin-bottom: 10px; }
+-.lc-ring-el     { position: relative; width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; }
+-.lc-stat-rank   { color: var(--b2); }
+-.lc-stat-accept { color: var(--g3); }
+-.lc-stat-rep    { color: var(--p2); }
+-.lc-dot-easy    { background: var(--g3); }
+-.lc-dot-med     { background: var(--y2); }
+-.lc-dot-hard    { background: var(--r2); }
+-.lc-user-text   { font-size: 11px; color: var(--tx2); margin-top: 6px; }
+-.btn-lc-reset   { margin-top: 8px; padding: 5px 10px; font-size: 10px; background: transparent; border-color: var(--tx3); color: var(--tx3); }
++.lc-title-icon {
++  vertical-align: -2px;
++  margin-right: 2px;
++  color: #fbbf24;
++}
++
++.lc-setup-text {
++  font-size: 12px;
++  color: var(--tx2);
++  margin-bottom: 10px;
++}
++
++.lc-ring-el {
++  position: relative;
++  width: 110px;
++  height: 110px;
++  display: flex;
++  align-items: center;
++  justify-content: center;
++}
++
++.lc-stat-rank {
++  color: var(--b2);
++}
++
++.lc-stat-accept {
++  color: var(--g3);
++}
++
++.lc-stat-rep {
++  color: var(--p2);
++}
++
++.lc-dot-easy {
++  background: var(--g3);
++}
++
++.lc-dot-med {
++  background: var(--y2);
++}
++
++.lc-dot-hard {
++  background: var(--r2);
++}
++
++.lc-user-text {
++  font-size: 11px;
++  color: var(--tx2);
++  margin-top: 6px;
++}
++
++.btn-lc-reset {
++  margin-top: 8px;
++  padding: 5px 10px;
++  font-size: 10px;
++  background: transparent;
++  border-color: var(--tx3);
++  color: var(--tx3);
++}
+ 
+ /* --- Repos Card --- */
+-.repos-meta-text { font-size: 11px; color: var(--tx2); }
+-.repos-empty     { font-size: 12px; color: var(--tx2); padding: 6px 0; }
++.repos-meta-text {
++  font-size: 11px;
++  color: var(--tx2);
++}
++
++.repos-empty {
++  font-size: 12px;
++  color: var(--tx2);
++  padding: 6px 0;
++}
+ 
+ /* --- Scratch Pad --- */
+ 
+-.auto-label { font-size: 10px; color: var(--tx2); }
++.auto-label {
++  font-size: 10px;
++  color: var(--tx2);
++}
+ 
+ /* --- Status Bar --- */
+-.sb-mid   { display: flex; gap: 10px; align-items: center; }
+-.sb-sep   { color: var(--line2); font-size: 9px; }
++.sb-mid {
++  display: flex;
++  gap: 10px;
++  align-items: center;
++}
++
++.sb-sep {
++  color: var(--line2);
++  font-size: 9px;
++}
+ 
+ /* System metrics (CPU/RAM) */
+ .sb-metric {
+@@ -1175,7 +1985,11 @@ textarea, input { font-family: var(--mono); }
+   font-size: 10.5px;
+   color: var(--tx2);
+ }
+-.sb-metric svg { opacity: 0.75; }
++
++.sb-metric svg {
++  opacity: 0.75;
++}
++
+ .sb-metric-bar {
+   width: 48px;
+   height: 4px;
+@@ -1183,33 +1997,95 @@ textarea, input { font-family: var(--mono); }
+   border-radius: 2px;
+   overflow: hidden;
+ }
++
+ .sb-metric-fill {
+   height: 100%;
+   border-radius: 2px;
+   transition: width 1s ease;
+   width: 0;
+ }
+-.sb-cpu-fill { background: linear-gradient(90deg, var(--y1), var(--y2)); box-shadow: 0 0 6px rgba(251, 191, 36, 0.45); }
+-.sb-ram-fill { background: linear-gradient(90deg, var(--y2), var(--y3)); box-shadow: 0 0 6px rgba(253, 230, 138, 0.4); }
++
++.sb-cpu-fill {
++  background: linear-gradient(90deg, var(--y1), var(--y2));
++  box-shadow: 0 0 6px rgba(251, 191, 36, 0.45);
++}
++
++.sb-ram-fill {
++  background: linear-gradient(90deg, var(--y2), var(--y3));
++  box-shadow: 0 0 6px rgba(253, 230, 138, 0.4);
++}
+ 
+ /* --- Error Messages --- */
+-.gh-error { margin-top: 7px; font-size: 10px; color: var(--r2); }
+-.lc-error { margin-top: 7px; font-size: 10px; color: var(--r2); }
++.gh-error {
++  margin-top: 7px;
++  font-size: 10px;
++  color: var(--r2);
++}
++
++.lc-error {
++  margin-top: 7px;
++  font-size: 10px;
++  color: var(--r2);
++}
+ 
+ /* --- Heatmap dynamic helpers --- */
+-.contrib-months { padding-left: 32px; margin-bottom: 4px; }
+-.cmonth-label { min-width: 0; flex: 0 0 auto; font-size: 8px; color: var(--tx3); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 4px; }
+-.cmonth-spacer { flex: 1; }
+-.c-day-label-gap { margin-top: 3px; }
+-.clevel-0 { background: var(--bg3); border: 1px solid rgba(255,255,255,.05); }
+-.clevel-1 { background: #064e3b; }
+-.clevel-2 { background: #059669; }
+-.clevel-3 { background: #10b981; }
+-.clevel-4 { background: #34d399; box-shadow: 0 0 4px rgba(52,211,153,.35); }
++.contrib-months {
++  padding-left: 32px;
++  margin-bottom: 4px;
++}
++
++.cmonth-label {
++  min-width: 0;
++  flex: 0 0 auto;
++  font-size: 8px;
++  color: var(--tx3);
++  text-transform: uppercase;
++  letter-spacing: 0.5px;
++  margin-right: 4px;
++}
++
++.cmonth-spacer {
++  flex: 1;
++}
++
++.c-day-label-gap {
++  margin-top: 3px;
++}
++
++.clevel-0 {
++  background: var(--bg3);
++  border: 1px solid rgba(255, 255, 255, .05);
++}
++
++.clevel-1 {
++  background: #064e3b;
++}
++
++.clevel-2 {
++  background: #059669;
++}
++
++.clevel-3 {
++  background: #10b981;
++}
++
++.clevel-4 {
++  background: #34d399;
++  box-shadow: 0 0 4px rgba(52, 211, 153, .35);
++}
+ 
+ /* --- Ring inner absolute layers --- */
+-.lc-ring-inner-med  { width: 88px; height: 88px; position: absolute; }
+-.lc-ring-inner-hard { width: 66px; height: 66px; position: absolute; }
++.lc-ring-inner-med {
++  width: 88px;
++  height: 88px;
++  position: absolute;
++}
++
++.lc-ring-inner-hard {
++  width: 66px;
++  height: 66px;
++  position: absolute;
++}
+ 
+ /* ═══════════════════════════════════════════════════════
+    GREETING
+@@ -1218,12 +2094,14 @@ textarea, input { font-family: var(--mono); }
+   text-align: center;
+   margin-bottom: 4px;
+ }
++
+ .greeting {
+   font-size: 11px;
+   text-transform: uppercase;
+   letter-spacing: 3px;
+   color: var(--tx3);
+ }
++
+ .greeting-name {
+   font-family: var(--disp);
+   font-size: 18px;
+@@ -1235,6 +2113,7 @@ textarea, input { font-family: var(--mono); }
+   cursor: pointer;
+   transition: filter 0.2s;
+ }
++
+ .greeting-name:hover {
+   filter: brightness(1.2);
+ }
+@@ -1249,16 +2128,37 @@ textarea, input { font-family: var(--mono); }
+   font-size: 10px;
+   color: var(--tx2);
+ }
+-.cw-icon { font-size: 14px; line-height: 1; }
+-.cw-temp { font-weight: 700; color: var(--tx); font-size: 12px; }
+-.cw-sep  { color: var(--tx4); font-size: 10px; }
+-.cw-desc { color: var(--tx2); }
+-.cw-loc  { color: var(--tx3); font-size: 9.5px; }
++
++.cw-icon {
++  font-size: 14px;
++  line-height: 1;
++}
++
++.cw-temp {
++  font-weight: 700;
++  color: var(--tx);
++  font-size: 12px;
++}
++
++.cw-sep {
++  color: var(--tx4);
++  font-size: 10px;
++}
++
++.cw-desc {
++  color: var(--tx2);
++}
++
++.cw-loc {
++  color: var(--tx3);
++  font-size: 9.5px;
++}
+ 
+ /* ═══════════════════════════════════════════════════════
+    WEATHER CARD (kept for potential standalone use)
+    ═══════════════════════════════════════════════════════ */
+-.weather-card { }
++.weather-card {}
++
+ .weather-loc {
+   font-size: 10px;
+   color: var(--tx3);
+@@ -1267,17 +2167,20 @@ textarea, input { font-family: var(--mono); }
+   text-overflow: ellipsis;
+   white-space: nowrap;
+ }
++
+ .weather-main {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   margin-bottom: 10px;
+ }
++
+ .weather-icon {
+   font-size: 32px;
+   line-height: 1;
+   filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.3));
+ }
++
+ .weather-temp {
+   font-family: var(--disp);
+   font-size: 32px;
+@@ -1286,16 +2189,19 @@ textarea, input { font-family: var(--mono); }
+   letter-spacing: -2px;
+   line-height: 1;
+ }
++
+ .weather-desc {
+   font-size: 11px;
+   color: var(--tx2);
+   text-transform: capitalize;
+ }
++
+ .weather-details {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 6px;
+ }
++
+ .weather-detail {
+   display: flex;
+   justify-content: space-between;
+@@ -1304,12 +2210,14 @@ textarea, input { font-family: var(--mono); }
+   border-radius: var(--rs);
+   border: 1px solid var(--line);
+ }
++
+ .weather-detail-k {
+   font-size: 9.5px;
+   color: var(--tx3);
+   text-transform: uppercase;
+   letter-spacing: 0.5px;
+ }
++
+ .weather-detail-v {
+   font-size: 10.5px;
+   font-weight: 600;
+@@ -1326,16 +2234,22 @@ textarea, input { font-family: var(--mono); }
+   scrollbar-width: none;
+   -ms-overflow-style: none;
+ }
+-.waka-card::-webkit-scrollbar { display: none; }
++
++.waka-card::-webkit-scrollbar {
++  display: none;
++}
++
+ .waka-setup-text {
+   font-size: 12px;
+   color: var(--tx2);
+   margin-bottom: 10px;
+ }
++
+ .waka-hint {
+   font-size: 10px;
+   color: var(--tx3);
+ }
++
+ .waka-input {
+   flex: 1;
+   background: var(--bg2);
+@@ -1347,7 +2261,11 @@ textarea, input { font-family: var(--mono); }
+   outline: none;
+   transition: border-color 0.2s;
+ }
+-.waka-input:focus { border-color: var(--g3); }
++
++.waka-input:focus {
++  border-color: var(--g3);
++}
++
+ .btn-waka {
+   padding: 6px 12px;
+   font-size: 11px;
+@@ -1357,7 +2275,11 @@ textarea, input { font-family: var(--mono); }
+   border-radius: var(--rs);
+   transition: background 0.2s;
+ }
+-.btn-waka:hover { background: var(--g4); }
++
++.btn-waka:hover {
++  background: var(--g4);
++}
++
+ .btn-waka-reset {
+   margin-top: 10px;
+   padding: 5px 10px;
+@@ -1367,8 +2289,17 @@ textarea, input { font-family: var(--mono); }
+   color: var(--tx3);
+   transition: all 0.3s;
+ }
+-.btn-waka-reset:hover { border-color: var(--y2); color: var(--y2); }
+-.waka-error { margin-top: 7px; font-size: 10px; color: var(--r2); }
++
++.btn-waka-reset:hover {
++  border-color: var(--y2);
++  color: var(--y2);
++}
++
++.waka-error {
++  margin-top: 7px;
++  font-size: 10px;
++  color: var(--r2);
++}
+ 
+ /* Hero: Circular ring + week total */
+ .waka-hero {
+@@ -1379,22 +2310,26 @@ textarea, input { font-family: var(--mono); }
+   margin-bottom: 14px;
+   padding: 10px 0;
+ }
++
+ .waka-ring-wrap {
+   position: relative;
+   width: 100px;
+   height: 100px;
+ }
++
+ .waka-ring-svg {
+   width: 100%;
+   height: 100%;
+   transform: rotate(-90deg);
+-  filter: drop-shadow(0 0 10px rgba(251,191,36,0.25));
++  filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.25));
+ }
++
+ .waka-ring-track {
+   fill: none;
+   stroke: var(--bg4);
+   stroke-width: 8;
+ }
++
+ .waka-ring-fill {
+   fill: none;
+   stroke: url(#wakaGrad);
+@@ -1404,6 +2339,7 @@ textarea, input { font-family: var(--mono); }
+   stroke-dashoffset: 326.73;
+   transition: stroke-dashoffset 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+ }
++
+ .waka-ring-center {
+   position: absolute;
+   top: 50%;
+@@ -1411,6 +2347,7 @@ textarea, input { font-family: var(--mono); }
+   transform: translate(-50%, -50%);
+   text-align: center;
+ }
++
+ .waka-ring-val {
+   font-family: var(--disp);
+   font-size: 20px;
+@@ -1421,15 +2358,18 @@ textarea, input { font-family: var(--mono); }
+   background-clip: text;
+   line-height: 1.1;
+ }
++
+ .waka-ring-sub {
+   font-size: 8px;
+   text-transform: uppercase;
+   letter-spacing: 2px;
+   color: var(--tx3);
+ }
++
+ .waka-week-total {
+   text-align: center;
+ }
++
+ .waka-week-num {
+   font-family: var(--disp);
+   font-size: 26px;
+@@ -1439,8 +2379,9 @@ textarea, input { font-family: var(--mono); }
+   -webkit-text-fill-color: transparent;
+   background-clip: text;
+   line-height: 1.1;
+-  filter: drop-shadow(0 0 8px rgba(251,191,36,0.3));
++  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.3));
+ }
++
+ .waka-week-sub {
+   font-size: 9px;
+   text-transform: uppercase;
+@@ -1461,6 +2402,7 @@ textarea, input { font-family: var(--mono); }
+   align-items: center;
+   gap: 8px;
+ }
++
+ .waka-week-label::after,
+ .waka-langs-label::after {
+   content: '';
+@@ -1468,7 +2410,10 @@ textarea, input { font-family: var(--mono); }
+   height: 1px;
+   background: linear-gradient(90deg, var(--line2), transparent);
+ }
+-.waka-langs-label { margin-top: 14px; }
++
++.waka-langs-label {
++  margin-top: 14px;
++}
+ 
+ /* Weekly Bars */
+ .waka-bars {
+@@ -1476,13 +2421,18 @@ textarea, input { font-family: var(--mono); }
+   flex-direction: column;
+   gap: 5px;
+ }
++
+ .waka-bar-row {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+   transition: transform 0.2s;
+ }
+-.waka-bar-row:hover { transform: translateX(2px); }
++
++.waka-bar-row:hover {
++  transform: translateX(2px);
++}
++
+ .waka-bar-day {
+   font-size: 9px;
+   font-weight: 600;
+@@ -1491,7 +2441,11 @@ textarea, input { font-family: var(--mono); }
+   text-align: right;
+   flex-shrink: 0;
+ }
+-.waka-bar-row:hover .waka-bar-day { color: var(--y2); }
++
++.waka-bar-row:hover .waka-bar-day {
++  color: var(--y2);
++}
++
+ .waka-bar-track {
+   flex: 1;
+   height: 8px;
+@@ -1499,14 +2453,16 @@ textarea, input { font-family: var(--mono); }
+   border-radius: 4px;
+   overflow: hidden;
+ }
++
+ .waka-bar-fill {
+   height: 100%;
+   border-radius: 4px;
+   transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+   position: relative;
+-  box-shadow: 0 0 6px rgba(251,191,36,0.25);
++  box-shadow: 0 0 6px rgba(251, 191, 36, 0.25);
+   min-width: 2px;
+ }
++
+ .waka-bar-fill::after {
+   content: '';
+   position: absolute;
+@@ -1514,17 +2470,39 @@ textarea, input { font-family: var(--mono); }
+   left: 0;
+   right: 0;
+   height: 50%;
+-  background: linear-gradient(to bottom, rgba(255,255,255,0.18), transparent);
++  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.18), transparent);
+   border-radius: 4px 4px 0 0;
+ }
++
+ /* Day-of-week bar colors */
+-.waka-bar-sun { background: linear-gradient(90deg, #f59e0b, #fbbf24) !important; }
+-.waka-bar-mon { background: linear-gradient(90deg, #d97706, #f59e0b) !important; }
+-.waka-bar-tue { background: linear-gradient(90deg, #b45309, #d97706) !important; }
+-.waka-bar-wed { background: linear-gradient(90deg, #fbbf24, #fde68a) !important; }
+-.waka-bar-thu { background: linear-gradient(90deg, #f59e0b, #fbbf24) !important; }
+-.waka-bar-fri { background: linear-gradient(90deg, #d97706, #fbbf24) !important; }
+-.waka-bar-sat { background: linear-gradient(90deg, #92400e, #d97706) !important; }
++.waka-bar-sun {
++  background: linear-gradient(90deg, #f59e0b, #fbbf24) !important;
++}
++
++.waka-bar-mon {
++  background: linear-gradient(90deg, #d97706, #f59e0b) !important;
++}
++
++.waka-bar-tue {
++  background: linear-gradient(90deg, #b45309, #d97706) !important;
++}
++
++.waka-bar-wed {
++  background: linear-gradient(90deg, #fbbf24, #fde68a) !important;
++}
++
++.waka-bar-thu {
++  background: linear-gradient(90deg, #f59e0b, #fbbf24) !important;
++}
++
++.waka-bar-fri {
++  background: linear-gradient(90deg, #d97706, #fbbf24) !important;
++}
++
++.waka-bar-sat {
++  background: linear-gradient(90deg, #92400e, #d97706) !important;
++}
++
+ .waka-bar-time {
+   font-size: 9px;
+   color: var(--tx2);
+@@ -1539,6 +2517,7 @@ textarea, input { font-family: var(--mono); }
+   flex-direction: column;
+   gap: 5px;
+ }
++
+ .waka-lang-row {
+   display: flex;
+   align-items: center;
+@@ -1547,7 +2526,11 @@ textarea, input { font-family: var(--mono); }
+   border-radius: 4px;
+   transition: background 0.2s;
+ }
+-.waka-lang-row:hover { background: rgba(255,255,255,0.03); }
++
++.waka-lang-row:hover {
++  background: rgba(255, 255, 255, 0.03);
++}
++
+ .waka-lang-dot {
+   width: 8px;
+   height: 8px;
+@@ -1555,16 +2538,19 @@ textarea, input { font-family: var(--mono); }
+   flex-shrink: 0;
+   box-shadow: 0 0 6px currentColor;
+ }
++
+ .waka-lang-name {
+   font-size: 10px;
+   color: var(--tx2);
+   flex: 1;
+ }
++
+ .waka-lang-pct {
+   font-size: 10px;
+   color: var(--tx);
+   font-weight: 700;
+ }
++
+ .waka-lang-bar-wrap {
+   width: 50px;
+   height: 4px;
+@@ -1573,8 +2559,9 @@ textarea, input { font-family: var(--mono); }
+   overflow: hidden;
+   flex-shrink: 0;
+ }
++
+ .waka-lang-bar-fill {
+   height: 100%;
+   border-radius: 2px;
+   transition: width 0.6s ease;
+-}
++}
+\ No newline at end of file
