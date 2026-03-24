@@ -1378,3 +1378,249 @@ if (savedLCUser) loadLeetCode(savedLCUser);
 
     if (savedKey) loadWaka(savedKey);
 })();
+
+/* ══════════════════════════════════════════════════════
+   15. CHRONO CARD — Stopwatch / Timer
+   ══════════════════════════════════════════════════════ */
+(function initChrono() {
+    /* ── Tab Switching ── */
+    var tabs = document.querySelectorAll('.chrono-tab');
+    var panels = document.querySelectorAll('.chrono-panel');
+
+    tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            var target = tab.getAttribute('data-tab');
+            tabs.forEach(function(t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+            panels.forEach(function(p) {
+                p.classList.toggle('hidden', p.id !== 'panel-' + target);
+            });
+        });
+    });
+
+    /* ── Stopwatch Tick Marks ── */
+    (function drawSwTicks() {
+        var ticksG = document.getElementById('sw-ticks');
+        if (!ticksG) return;
+        for (var i = 0; i < 60; i++) {
+            var angle = (i * 6) * Math.PI / 180;
+            var isMain = i % 5 === 0;
+            var r1 = isMain ? 54 : 57;
+            var r2 = 60;
+            var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', 70 + r1 * Math.sin(angle));
+            line.setAttribute('y1', 70 - r1 * Math.cos(angle));
+            line.setAttribute('x2', 70 + r2 * Math.sin(angle));
+            line.setAttribute('y2', 70 - r2 * Math.cos(angle));
+            line.setAttribute('stroke', isMain ? 'rgba(34,211,160,0.4)' : 'rgba(139,157,195,0.15)');
+            line.setAttribute('stroke-width', isMain ? '1.5' : '0.5');
+            line.setAttribute('stroke-linecap', 'round');
+            ticksG.appendChild(line);
+        }
+    })();
+
+    /* ── Stopwatch ── */
+    (function initStopwatch() {
+        var display = document.getElementById('sw-display');
+        var startBtn = document.getElementById('sw-start');
+        var lapBtn = document.getElementById('sw-lap');
+        var resetBtn = document.getElementById('sw-reset');
+        var lapsEl = document.getElementById('sw-laps');
+        var ringFill = document.getElementById('sw-ring-fill');
+        if (!display || !startBtn) return;
+
+        var running = false;
+        var startTime = 0;
+        var elapsed = 0;
+        var rafId = null;
+        var laps = [];
+        var lastLapTime = 0;
+        var swCirc = 2 * Math.PI * 60; // 376.99
+
+        function fmtSW(ms) {
+            var totalSec = Math.floor(ms / 1000);
+            var mins = Math.floor(totalSec / 60);
+            var secs = totalSec % 60;
+            var centis = Math.floor((ms % 1000) / 10);
+            return pad(mins) + ':' + pad(secs) + '<span class="sw-ms">.' + pad(centis) + '</span>';
+        }
+
+        function updateSwRing() {
+            // Fill based on seconds within current minute (0-60)
+            var secInMin = (elapsed / 1000) % 60;
+            var pct = secInMin / 60;
+            if (ringFill) {
+                ringFill.style.strokeDashoffset = swCirc * (1 - pct);
+            }
+        }
+
+        function tick() {
+            if (!running) return;
+            elapsed = Date.now() - startTime;
+            display.innerHTML = fmtSW(elapsed);
+            updateSwRing();
+            rafId = requestAnimationFrame(tick);
+        }
+
+        startBtn.addEventListener('click', function() {
+            if (running) {
+                running = false;
+                cancelAnimationFrame(rafId);
+                startBtn.innerHTML = '&#9654; Start';
+                startBtn.classList.remove('running');
+            } else {
+                running = true;
+                startTime = Date.now() - elapsed;
+                startBtn.innerHTML = '&#9632; Stop';
+                startBtn.classList.add('running');
+                lapBtn.disabled = false;
+                resetBtn.disabled = false;
+                tick();
+            }
+        });
+
+        lapBtn.addEventListener('click', function() {
+            if (!running) return;
+            var lapTime = elapsed;
+            var diff = lapTime - lastLapTime;
+            lastLapTime = lapTime;
+            laps.unshift({ num: laps.length + 1, time: lapTime, diff: diff });
+            renderLaps();
+        });
+
+        resetBtn.addEventListener('click', function() {
+            running = false;
+            cancelAnimationFrame(rafId);
+            elapsed = 0;
+            lastLapTime = 0;
+            laps = [];
+            display.innerHTML = fmtSW(0);
+            startBtn.innerHTML = '&#9654; Start';
+            startBtn.classList.remove('running');
+            lapBtn.disabled = true;
+            resetBtn.disabled = true;
+            lapsEl.innerHTML = '';
+            if (ringFill) ringFill.style.strokeDashoffset = swCirc;
+        });
+
+        function renderLaps() {
+            var html = '';
+            laps.forEach(function(lap) {
+                html += '<div class="sw-lap-item">' +
+                    '<span class="sw-lap-num">Lap ' + lap.num + '</span>' +
+                    '<span class="sw-lap-diff">+' + (lap.diff / 1000).toFixed(2) + 's</span>' +
+                    '<span class="sw-lap-time">' + pad(Math.floor(lap.time / 60000)) + ':' +
+                    pad(Math.floor((lap.time % 60000) / 1000)) + '.' +
+                    pad(Math.floor((lap.time % 1000) / 10)) + '</span></div>';
+            });
+            lapsEl.innerHTML = html;
+        }
+    })();
+
+    /* ── Timer ── */
+    (function initTimer() {
+        var timerDisplay = document.getElementById('timer-display');
+        var timerLabel = document.getElementById('timer-label');
+        var timerStartBtn = document.getElementById('timer-start');
+        var timerResetBtn = document.getElementById('timer-reset');
+        var timerRingFill = document.getElementById('timer-ring-fill');
+        var presets = document.querySelectorAll('.timer-preset');
+        if (!timerDisplay || !timerStartBtn) return;
+
+        var timerDuration = 300;
+        var timerRemaining = 300;
+        var timerRunning = false;
+        var timerInterval = null;
+        var circumference = 2 * Math.PI * 60; // 376.99
+
+        function fmtTimer(sec) {
+            var m = Math.floor(sec / 60);
+            var s = sec % 60;
+            return pad(m) + ':' + pad(s);
+        }
+
+        function updateRing() {
+            var pct = timerDuration > 0 ? timerRemaining / timerDuration : 0;
+            timerRingFill.style.strokeDashoffset = circumference * (1 - pct);
+
+            timerRingFill.classList.remove('warning', 'danger');
+            if (pct < 0.15 && pct > 0) {
+                timerRingFill.classList.add('danger');
+            } else if (pct < 0.3) {
+                timerRingFill.classList.add('warning');
+            }
+        }
+
+        function timerTick() {
+            if (timerRemaining <= 0) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                timerDisplay.textContent = '00:00';
+                timerLabel.textContent = 'done!';
+                timerStartBtn.innerHTML = '&#9654; Start';
+                timerStartBtn.classList.remove('running');
+                timerRingFill.style.strokeDashoffset = circumference;
+                timerRingFill.classList.remove('warning', 'danger');
+
+                var card = document.querySelector('.chrono-card');
+                if (card) {
+                    card.classList.add('timer-done-flash');
+                    setTimeout(function() { card.classList.remove('timer-done-flash'); }, 1600);
+                }
+                return;
+            }
+            timerRemaining--;
+            timerDisplay.textContent = fmtTimer(timerRemaining);
+            timerLabel.textContent = 'remaining';
+            updateRing();
+        }
+
+        timerStartBtn.addEventListener('click', function() {
+            if (timerRunning) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                timerStartBtn.innerHTML = '&#9654; Resume';
+                timerStartBtn.classList.remove('running');
+                timerLabel.textContent = 'paused';
+            } else {
+                if (timerRemaining <= 0) {
+                    timerRemaining = timerDuration;
+                }
+                timerRunning = true;
+                timerStartBtn.innerHTML = '&#10074;&#10074; Pause';
+                timerStartBtn.classList.add('running');
+                timerLabel.textContent = 'remaining';
+                timerInterval = setInterval(timerTick, 1000);
+            }
+        });
+
+        timerResetBtn.addEventListener('click', function() {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            timerRemaining = timerDuration;
+            timerDisplay.textContent = fmtTimer(timerDuration);
+            timerLabel.textContent = 'set time';
+            timerStartBtn.innerHTML = '&#9654; Start';
+            timerStartBtn.classList.remove('running');
+            timerRingFill.style.strokeDashoffset = 0;
+            timerRingFill.classList.remove('warning', 'danger');
+        });
+
+        presets.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                if (timerRunning) return;
+                presets.forEach(function(b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                timerDuration = parseInt(btn.getAttribute('data-sec'), 10);
+                timerRemaining = timerDuration;
+                timerDisplay.textContent = fmtTimer(timerDuration);
+                timerLabel.textContent = 'set time';
+                timerRingFill.style.strokeDashoffset = 0;
+                timerRingFill.classList.remove('warning', 'danger');
+            });
+        });
+
+        timerDisplay.textContent = fmtTimer(timerDuration);
+        updateRing();
+    })();
+})();

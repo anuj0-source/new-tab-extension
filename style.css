@@ -738,18 +738,22 @@ input {
   flex-direction: column;
   --search-accent: #4285F4;
   padding: 10px 12px;
+  border: 1px solid rgba(34, 211, 160, 0.25);
+  box-shadow: 0 0 20px rgba(34, 211, 160, 0.06), 0 4px 24px rgba(0, 0, 0, 0.4);
+  position: relative;
 }
 
 .sf {
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, var(--bg3) 0%, rgba(16, 20, 28, 0.95) 100%);
-  border: 1px solid var(--line2);
+  background: linear-gradient(135deg, rgba(16, 20, 28, 0.98) 0%, rgba(22, 28, 38, 0.95) 100%);
+  border: 1.5px solid rgba(34, 211, 160, 0.2);
   border-radius: 12px;
   overflow: hidden;
   transition: border-color 0.3s, box-shadow 0.3s;
   margin-bottom: 6px;
   position: relative;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .sf::before {
@@ -2573,6 +2577,7 @@ input {
   display: flex;
   flex-direction: column;
 }
+
 .pet-scene {
   flex: 1;
   position: relative;
@@ -2582,9 +2587,11 @@ input {
   overflow: hidden;
   cursor: grab;
 }
+
 .pet-scene:active {
   cursor: grabbing;
 }
+
 #dog-canvas {
   position: absolute;
   top: 0;
@@ -2605,6 +2612,7 @@ input {
   letter-spacing: 1px;
   color: var(--tx2);
 }
+
 .pet-status-dot {
   width: 8px;
   height: 8px;
@@ -2613,10 +2621,12 @@ input {
   box-shadow: 0 0 5px var(--g1);
   transition: all 0.3s;
 }
+
 .pet-status-dot.sleeping {
   background: var(--tx3);
   box-shadow: none;
 }
+
 .pet-status-dot.happy {
   background: var(--y1);
   box-shadow: 0 0 8px var(--y1);
@@ -2644,10 +2654,12 @@ input {
   z-index: 10;
   animation: floatBubble 3s ease-in-out infinite;
 }
+
 .pet-bubble.hidden {
   opacity: 0;
   transform: translateX(-50%) translateY(10px);
 }
+
 .pet-bubble-arrow {
   position: absolute;
   bottom: -5px;
@@ -2663,6 +2675,411 @@ input {
 }
 
 @keyframes floatBubble {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(-5px); }
+
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   HORIZONTAL BOOKMARKS STRIP
+   ═══════════════════════════════════════════════════════ */
+.bookmarks-strip {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 8px 10px;
+  justify-content: center;
+  background: rgba(34, 211, 160, 0.03);
+  border: 1px solid rgba(34, 211, 160, 0.12);
+  border-radius: 10px;
+  margin-top: 4px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.bm-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  background: rgba(34, 211, 160, 0.06);
+  border: 1px solid rgba(34, 211, 160, 0.15);
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--tx2);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+
+.bm-pill:hover {
+  border-color: var(--g3);
+  color: #fff;
+  background: rgba(34, 211, 160, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 12px rgba(34, 211, 160, 0.15);
+}
+
+.bm-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   COMPACT PET CARD
+   ═══════════════════════════════════════════════════════ */
+.pet-card {
+  min-height: 160px !important;
+}
+
+.pet-scene {
+  min-height: 120px !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CHRONO CARD — Clock / Stopwatch / Timer
+   ═══════════════════════════════════════════════════════ */
+.chrono-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.chrono-tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--bg3);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.chrono-tab {
+  flex: 1;
+  padding: 4px 8px;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--tx3);
+  border-radius: 6px;
+  transition: all 0.25s;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  font-family: var(--mono);
+}
+
+.chrono-tab:hover {
+  color: var(--tx2);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.chrono-tab.active {
+  background: linear-gradient(135deg, rgba(34, 211, 160, 0.12), rgba(16, 185, 129, 0.06));
+  color: var(--g3);
+  box-shadow: 0 0 8px rgba(34, 211, 160, 0.1);
+}
+
+.chrono-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 0;
+  min-height: 0;
+  gap: 4px;
+}
+
+.chrono-panel.hidden {
+  display: none;
+}
+
+/* ── Stopwatch Ring ── */
+.sw-ring-wrap {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.sw-ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  filter: drop-shadow(0 0 12px rgba(34, 211, 160, 0.12));
+}
+
+.sw-ring-track {
+  fill: none;
+  stroke: var(--bg4);
+  stroke-width: 5;
+}
+
+.sw-ring-fill {
+  fill: none;
+  stroke: url(#swGrad);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 376.99;
+  stroke-dashoffset: 376.99;
+  transition: stroke-dashoffset 0.1s linear;
+  filter: drop-shadow(0 0 6px rgba(34, 211, 160, 0.3));
+}
+
+.sw-ring-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* ── Stopwatch ── */
+.sw-display {
+  font-family: var(--disp);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1;
+  background: linear-gradient(160deg, #fff 25%, var(--g3) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+}
+
+.sw-ms {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.sw-controls {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.sw-btn {
+  padding: 6px 14px;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--mono);
+  border: 1px solid var(--line2);
+  border-radius: var(--rs);
+  color: var(--tx2);
+  background: var(--bg3);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.sw-btn:hover:not(:disabled) {
+  border-color: var(--g3);
+  color: var(--tx);
+  background: var(--bg4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.sw-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.sw-btn-start {
+  background: linear-gradient(135deg, var(--g2), var(--g1));
+  border-color: var(--g3);
+  color: #fff;
+}
+
+.sw-btn-start:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--g3), var(--g2));
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.25);
+}
+
+.sw-btn-start.running {
+  background: linear-gradient(135deg, var(--r1), #991b1b);
+  border-color: var(--r2);
+}
+
+.sw-btn-start.running:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--r2), var(--r1));
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.25);
+  border-color: var(--r2);
+}
+
+.sw-laps {
+  max-height: 80px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  width: 100%;
+  padding: 0 8px;
+}
+
+.sw-laps::-webkit-scrollbar {
+  display: none;
+}
+
+.sw-lap-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 8px;
+  font-size: 10px;
+  color: var(--tx3);
+  border-bottom: 1px solid var(--line);
+  animation: cardSlideUp 0.2s ease;
+}
+
+.sw-lap-item:last-child {
+  border-bottom: none;
+}
+
+.sw-lap-num {
+  color: var(--g3);
+  font-weight: 600;
+}
+
+.sw-lap-time {
+  font-weight: 600;
+  color: var(--tx);
+  font-variant-numeric: tabular-nums;
+}
+
+.sw-lap-diff {
+  color: var(--y2);
+  font-size: 9px;
+}
+
+/* ── Timer ── */
+.timer-ring-wrap {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.timer-ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  filter: drop-shadow(0 0 12px rgba(34, 211, 160, 0.15));
+}
+
+.timer-ring-track {
+  fill: none;
+  stroke: var(--bg4);
+  stroke-width: 5;
+}
+
+.timer-ring-fill {
+  fill: none;
+  stroke: url(#timerGrad);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 376.99;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.5s linear, stroke 0.3s;
+  filter: drop-shadow(0 0 6px rgba(34, 211, 160, 0.3));
+}
+
+.timer-ring-fill.warning {
+  stroke: var(--y2);
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.35));
+}
+
+.timer-ring-fill.danger {
+  stroke: var(--r2);
+  filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.35));
+  animation: timerPulse 0.6s ease infinite;
+}
+
+@keyframes timerPulse {
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.timer-ring-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.timer-display {
+  font-family: var(--disp);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--tx);
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.timer-label {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--tx3);
+}
+
+.timer-presets {
+  display: flex;
+  gap: 4px;
+}
+
+.timer-preset {
+  padding: 4px 10px;
+  font-size: 9px;
+  font-weight: 600;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: var(--tx3);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.timer-preset:hover {
+  border-color: var(--g3);
+  color: var(--tx);
+  background: rgba(34, 211, 160, 0.06);
+}
+
+.timer-preset.active {
+  border-color: var(--g3);
+  color: var(--g3);
+  background: rgba(34, 211, 160, 0.1);
+  box-shadow: 0 0 8px rgba(34, 211, 160, 0.12);
+}
+
+.timer-done-flash {
+  animation: timerFlash 0.5s ease 3;
+}
+
+@keyframes timerFlash {
+  50% {
+    background: rgba(34, 211, 160, 0.08);
+  }
 }
