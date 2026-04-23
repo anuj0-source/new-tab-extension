@@ -1398,169 +1398,188 @@ if (savedLCUser) loadLeetCode(savedLCUser);
         });
     });
 
-    /* ── Stopwatch Tick Marks ── */
-    (function drawSwTicks() {
-        var ticksG = document.getElementById('sw-ticks');
-        if (!ticksG) return;
-        for (var i = 0; i < 60; i++) {
-            var angle = (i * 6) * Math.PI / 180;
-            var isMain = i % 5 === 0;
-            var r1 = isMain ? 54 : 57;
-            var r2 = 60;
-            var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute('x1', 70 + r1 * Math.sin(angle));
-            line.setAttribute('y1', 70 - r1 * Math.cos(angle));
-            line.setAttribute('x2', 70 + r2 * Math.sin(angle));
-            line.setAttribute('y2', 70 - r2 * Math.cos(angle));
-            line.setAttribute('stroke', isMain ? 'rgba(34,211,160,0.4)' : 'rgba(139,157,195,0.15)');
-            line.setAttribute('stroke-width', isMain ? '1.5' : '0.5');
-            line.setAttribute('stroke-linecap', 'round');
-            ticksG.appendChild(line);
-        }
-    })();
-
     /* ── Stopwatch ── */
     (function initStopwatch() {
-        var display = document.getElementById('sw-display');
         var startBtn = document.getElementById('sw-start');
-        var lapBtn = document.getElementById('sw-lap');
+        var pauseBtn = document.getElementById('sw-pause');
         var resetBtn = document.getElementById('sw-reset');
-        var lapsEl = document.getElementById('sw-laps');
-        var ringFill = document.getElementById('sw-ring-fill');
-        if (!display || !startBtn) return;
+
+        var hoursEl = document.getElementById('sw-hours');
+        var minutesEl = document.getElementById('sw-minutes');
+        var secondsEl = document.getElementById('sw-seconds');
+
+        var hoursProgress = document.getElementById('sw-hours-progress');
+        var minutesProgress = document.getElementById('sw-minutes-progress');
+        var secondsProgress = document.getElementById('sw-seconds-progress');
+
+        var hoursDot = document.getElementById('sw-hours-dot');
+        var minutesDot = document.getElementById('sw-minutes-dot');
+        var secondsDot = document.getElementById('sw-seconds-dot');
+
+        if (!startBtn || !pauseBtn || !resetBtn) return;
+        if (!hoursEl || !minutesEl || !secondsEl) return;
+        if (!hoursProgress || !minutesProgress || !secondsProgress) return;
+        if (!hoursDot || !minutesDot || !secondsDot) return;
 
         var running = false;
         var startTime = 0;
         var elapsed = 0;
         var rafId = null;
-        var laps = [];
-        var lastLapTime = 0;
-        var swCirc = 2 * Math.PI * 60; // 376.99
+        var ringRadius = 52;
+        var ringCirc = 2 * Math.PI * ringRadius;
 
-        function fmtSW(ms) {
-            var totalSec = Math.floor(ms / 1000);
-            var mins = Math.floor(totalSec / 60);
-            var secs = totalSec % 60;
-            var centis = Math.floor((ms % 1000) / 10);
-            return pad(mins) + ':' + pad(secs) + '<span class="sw-ms">.' + pad(centis) + '</span>';
+        function setRing(el, dot, pct) {
+            var progress = Math.min(Math.max(pct, 0), 1);
+            el.style.strokeDasharray = String(ringCirc);
+            el.style.strokeDashoffset = String(ringCirc * (1 - progress));
+            dot.style.transform = 'rotate(' + (progress * 360) + 'deg)';
         }
 
-        function updateSwRing() {
-            // Fill based on seconds within current minute (0-60)
-            var secInMin = (elapsed / 1000) % 60;
-            var pct = secInMin / 60;
-            if (ringFill) {
-                ringFill.style.strokeDashoffset = swCirc * (1 - pct);
-            }
+        function render(ms) {
+            var safeMs = Math.max(0, ms);
+            var totalSeconds = Math.floor(safeMs / 1000);
+            var totalMinutes = Math.floor(totalSeconds / 60);
+            var totalHours = Math.floor(totalMinutes / 60);
+
+            var seconds = totalSeconds % 60;
+            var minutes = totalMinutes % 60;
+            var hours = totalHours % 100;
+
+            hoursEl.textContent = pad(hours);
+            minutesEl.textContent = pad(minutes);
+            secondsEl.textContent = pad(seconds);
+
+            var secondsPct = (safeMs % 60000) / 60000;
+            var minutesPct = ((totalMinutes % 60) + (seconds / 60)) / 60;
+            var hoursPct = ((totalHours % 24) + (minutes / 60)) / 24;
+
+            setRing(hoursProgress, hoursDot, hoursPct);
+            setRing(minutesProgress, minutesDot, minutesPct);
+            setRing(secondsProgress, secondsDot, secondsPct);
+        }
+
+        function updateButtons() {
+            startBtn.disabled = running;
+            pauseBtn.disabled = !running;
+            resetBtn.disabled = running ? false : elapsed <= 0;
         }
 
         function tick() {
             if (!running) return;
             elapsed = Date.now() - startTime;
-            display.innerHTML = fmtSW(elapsed);
-            updateSwRing();
+            render(elapsed);
             rafId = requestAnimationFrame(tick);
         }
 
         startBtn.addEventListener('click', function() {
-            if (running) {
-                running = false;
-                cancelAnimationFrame(rafId);
-                startBtn.innerHTML = '&#9654; Start';
-                startBtn.classList.remove('running');
-            } else {
-                running = true;
-                startTime = Date.now() - elapsed;
-                startBtn.innerHTML = '&#9632; Stop';
-                startBtn.classList.add('running');
-                lapBtn.disabled = false;
-                resetBtn.disabled = false;
-                tick();
-            }
+            if (running) return;
+            running = true;
+            startTime = Date.now() - elapsed;
+            startBtn.classList.add('running');
+            tick();
+            updateButtons();
         });
 
-        lapBtn.addEventListener('click', function() {
+        pauseBtn.addEventListener('click', function() {
             if (!running) return;
-            var lapTime = elapsed;
-            var diff = lapTime - lastLapTime;
-            lastLapTime = lapTime;
-            laps.unshift({ num: laps.length + 1, time: lapTime, diff: diff });
-            renderLaps();
+            running = false;
+            cancelAnimationFrame(rafId);
+            startBtn.classList.remove('running');
+            updateButtons();
         });
 
         resetBtn.addEventListener('click', function() {
             running = false;
             cancelAnimationFrame(rafId);
             elapsed = 0;
-            lastLapTime = 0;
-            laps = [];
-            display.innerHTML = fmtSW(0);
-            startBtn.innerHTML = '&#9654; Start';
             startBtn.classList.remove('running');
-            lapBtn.disabled = true;
-            resetBtn.disabled = true;
-            lapsEl.innerHTML = '';
-            if (ringFill) ringFill.style.strokeDashoffset = swCirc;
+            render(0);
+            updateButtons();
         });
 
-        function renderLaps() {
-            var html = '';
-            laps.forEach(function(lap) {
-                html += '<div class="sw-lap-item">' +
-                    '<span class="sw-lap-num">Lap ' + lap.num + '</span>' +
-                    '<span class="sw-lap-diff">+' + (lap.diff / 1000).toFixed(2) + 's</span>' +
-                    '<span class="sw-lap-time">' + pad(Math.floor(lap.time / 60000)) + ':' +
-                    pad(Math.floor((lap.time % 60000) / 1000)) + '.' +
-                    pad(Math.floor((lap.time % 1000) / 10)) + '</span></div>';
-            });
-            lapsEl.innerHTML = html;
-        }
+        render(0);
+        updateButtons();
     })();
 
     /* ── Timer ── */
     (function initTimer() {
-        var timerDisplay = document.getElementById('timer-display');
-        var timerLabel = document.getElementById('timer-label');
         var timerStartBtn = document.getElementById('timer-start');
+        var timerPauseBtn = document.getElementById('timer-pause');
         var timerResetBtn = document.getElementById('timer-reset');
-        var timerRingFill = document.getElementById('timer-ring-fill');
+        var timerHoursEl = document.getElementById('timer-hours');
+        var timerMinutesEl = document.getElementById('timer-minutes');
+        var timerSecondsEl = document.getElementById('timer-seconds');
+        var timerHoursProgress = document.getElementById('timer-hours-progress');
+        var timerMinutesProgress = document.getElementById('timer-minutes-progress');
+        var timerSecondsProgress = document.getElementById('timer-seconds-progress');
+        var timerHoursDot = document.getElementById('timer-hours-dot');
+        var timerMinutesDot = document.getElementById('timer-minutes-dot');
+        var timerSecondsDot = document.getElementById('timer-seconds-dot');
         var presets = document.querySelectorAll('.timer-preset');
-        if (!timerDisplay || !timerStartBtn) return;
+        if (!timerStartBtn || !timerPauseBtn || !timerResetBtn) return;
+        if (!timerHoursEl || !timerMinutesEl || !timerSecondsEl) return;
+        if (!timerHoursProgress || !timerMinutesProgress || !timerSecondsProgress) return;
+        if (!timerHoursDot || !timerMinutesDot || !timerSecondsDot) return;
 
         var timerDuration = 300;
         var timerRemaining = 300;
         var timerRunning = false;
         var timerInterval = null;
-        var circumference = 2 * Math.PI * 60; // 376.99
+        var timerRingRadius = 52;
+        var timerRingCirc = 2 * Math.PI * timerRingRadius;
 
-        function fmtTimer(sec) {
-            var m = Math.floor(sec / 60);
-            var s = sec % 60;
-            return pad(m) + ':' + pad(s);
+        function setTimerRing(progressEl, dotEl, pct) {
+            var progress = Math.min(Math.max(pct, 0), 1);
+            progressEl.style.strokeDasharray = String(timerRingCirc);
+            progressEl.style.strokeDashoffset = String(timerRingCirc * (1 - progress));
+            dotEl.style.transform = 'rotate(' + (progress * 360) + 'deg)';
         }
 
-        function updateRing() {
-            var pct = timerDuration > 0 ? timerRemaining / timerDuration : 0;
-            timerRingFill.style.strokeDashoffset = circumference * (1 - pct);
+        function renderTimer(secRemaining) {
+            var safeSec = Math.max(0, secRemaining);
+            var totalHours = Math.floor(safeSec / 3600);
+            var minutes = Math.floor((safeSec % 3600) / 60);
+            var seconds = safeSec % 60;
+            var elapsedSec = Math.max(timerDuration - safeSec, 0);
 
-            timerRingFill.classList.remove('warning', 'danger');
-            if (pct < 0.15 && pct > 0) {
-                timerRingFill.classList.add('danger');
-            } else if (pct < 0.3) {
-                timerRingFill.classList.add('warning');
+            timerHoursEl.textContent = pad(totalHours % 100);
+            timerMinutesEl.textContent = pad(minutes);
+            timerSecondsEl.textContent = pad(seconds);
+
+            if (safeSec === 0 && timerDuration > 0) {
+                setTimerRing(timerHoursProgress, timerHoursDot, 1);
+                setTimerRing(timerMinutesProgress, timerMinutesDot, 1);
+                setTimerRing(timerSecondsProgress, timerSecondsDot, 1);
+                return;
             }
+
+            var secondsPct = (elapsedSec % 60) / 60;
+            var minutesPct = ((elapsedSec / 60) % 60) / 60;
+            var hoursPct = ((elapsedSec / 3600) % 24) / 24;
+
+            setTimerRing(timerHoursProgress, timerHoursDot, hoursPct);
+            setTimerRing(timerMinutesProgress, timerMinutesDot, minutesPct);
+            setTimerRing(timerSecondsProgress, timerSecondsDot, secondsPct);
+        }
+
+        function updateTimerButtons() {
+            timerStartBtn.disabled = timerRunning;
+            timerPauseBtn.disabled = !timerRunning;
+            timerResetBtn.disabled = timerRunning ? false : timerRemaining === timerDuration;
         }
 
         function timerTick() {
+            if (!timerRunning) return;
+
+            timerRemaining = Math.max(0, timerRemaining - 1);
+            renderTimer(timerRemaining);
+
             if (timerRemaining <= 0) {
                 clearInterval(timerInterval);
+                timerInterval = null;
                 timerRunning = false;
-                timerDisplay.textContent = '00:00';
-                timerLabel.textContent = 'done!';
-                timerStartBtn.innerHTML = '&#9654; Start';
                 timerStartBtn.classList.remove('running');
-                timerRingFill.style.strokeDashoffset = circumference;
-                timerRingFill.classList.remove('warning', 'danger');
+                updateTimerButtons();
 
                 var card = document.querySelector('.chrono-card');
                 if (card) {
@@ -1569,41 +1588,40 @@ if (savedLCUser) loadLeetCode(savedLCUser);
                 }
                 return;
             }
-            timerRemaining--;
-            timerDisplay.textContent = fmtTimer(timerRemaining);
-            timerLabel.textContent = 'remaining';
-            updateRing();
+
+            updateTimerButtons();
         }
 
         timerStartBtn.addEventListener('click', function() {
-            if (timerRunning) {
-                clearInterval(timerInterval);
-                timerRunning = false;
-                timerStartBtn.innerHTML = '&#9654; Resume';
-                timerStartBtn.classList.remove('running');
-                timerLabel.textContent = 'paused';
-            } else {
-                if (timerRemaining <= 0) {
-                    timerRemaining = timerDuration;
-                }
-                timerRunning = true;
-                timerStartBtn.innerHTML = '&#10074;&#10074; Pause';
-                timerStartBtn.classList.add('running');
-                timerLabel.textContent = 'remaining';
-                timerInterval = setInterval(timerTick, 1000);
+            if (timerRunning) return;
+            if (timerRemaining <= 0) {
+                timerRemaining = timerDuration;
+                renderTimer(timerRemaining);
             }
+
+            timerRunning = true;
+            timerStartBtn.classList.add('running');
+            timerInterval = setInterval(timerTick, 1000);
+            updateTimerButtons();
+        });
+
+        timerPauseBtn.addEventListener('click', function() {
+            if (!timerRunning) return;
+            clearInterval(timerInterval);
+            timerInterval = null;
+            timerRunning = false;
+            timerStartBtn.classList.remove('running');
+            updateTimerButtons();
         });
 
         timerResetBtn.addEventListener('click', function() {
             clearInterval(timerInterval);
+            timerInterval = null;
             timerRunning = false;
             timerRemaining = timerDuration;
-            timerDisplay.textContent = fmtTimer(timerDuration);
-            timerLabel.textContent = 'set time';
-            timerStartBtn.innerHTML = '&#9654; Start';
             timerStartBtn.classList.remove('running');
-            timerRingFill.style.strokeDashoffset = 0;
-            timerRingFill.classList.remove('warning', 'danger');
+            renderTimer(timerDuration);
+            updateTimerButtons();
         });
 
         presets.forEach(function(btn) {
@@ -1613,14 +1631,12 @@ if (savedLCUser) loadLeetCode(savedLCUser);
                 btn.classList.add('active');
                 timerDuration = parseInt(btn.getAttribute('data-sec'), 10);
                 timerRemaining = timerDuration;
-                timerDisplay.textContent = fmtTimer(timerDuration);
-                timerLabel.textContent = 'set time';
-                timerRingFill.style.strokeDashoffset = 0;
-                timerRingFill.classList.remove('warning', 'danger');
+                renderTimer(timerDuration);
+                updateTimerButtons();
             });
         });
 
-        timerDisplay.textContent = fmtTimer(timerDuration);
-        updateRing();
+        renderTimer(timerDuration);
+        updateTimerButtons();
     })();
 })();

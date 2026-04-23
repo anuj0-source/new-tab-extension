@@ -155,49 +155,87 @@
 
           <!-- Stopwatch Panel -->
           <div class="chrono-panel" id="panel-stopwatch">
-            <div class="sw-ring-wrap">
-              <svg class="sw-ring-svg" viewBox="0 0 140 140">
-                <defs>
-                  <linearGradient id="swGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#4ade9e"/>
-                    <stop offset="50%" stop-color="#22d3a0"/>
-                    <stop offset="100%" stop-color="#059669"/>
-                  </linearGradient>
-                </defs>
-                <circle class="sw-ring-track" cx="70" cy="70" r="60"/>
-                <circle class="sw-ring-fill" id="sw-ring-fill" cx="70" cy="70" r="60"/>
-                <!-- Tick marks -->
-                <g id="sw-ticks"></g>
-              </svg>
-              <div class="sw-ring-center">
-                <div class="sw-display" id="sw-display">00:00<span class="sw-ms">.00</span></div>
+            <div class="sw-triple-wrap">
+              <div class="sw-unit sw-unit-hours">
+                <svg class="sw-unit-svg" viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="sw-unit-track" cx="60" cy="60" r="52"></circle>
+                  <circle class="sw-unit-progress" id="sw-hours-progress" cx="60" cy="60" r="52"></circle>
+                  <circle class="sw-unit-dot" id="sw-hours-dot" cx="60" cy="8" r="5.6"></circle>
+                </svg>
+                <div class="sw-unit-center">
+                  <div class="sw-unit-value" id="sw-hours">00</div>
+                  <div class="sw-unit-label">HOURS</div>
+                </div>
+              </div>
+
+              <div class="sw-unit sw-unit-minutes">
+                <svg class="sw-unit-svg" viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="sw-unit-track" cx="60" cy="60" r="52"></circle>
+                  <circle class="sw-unit-progress" id="sw-minutes-progress" cx="60" cy="60" r="52"></circle>
+                  <circle class="sw-unit-dot" id="sw-minutes-dot" cx="60" cy="8" r="5.6"></circle>
+                </svg>
+                <div class="sw-unit-center">
+                  <div class="sw-unit-value" id="sw-minutes">00</div>
+                  <div class="sw-unit-label">MINUTES</div>
+                </div>
+              </div>
+
+              <div class="sw-unit sw-unit-seconds">
+                <svg class="sw-unit-svg" viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="sw-unit-track" cx="60" cy="60" r="52"></circle>
+                  <circle class="sw-unit-progress" id="sw-seconds-progress" cx="60" cy="60" r="52"></circle>
+                  <circle class="sw-unit-dot" id="sw-seconds-dot" cx="60" cy="8" r="5.6"></circle>
+                </svg>
+                <div class="sw-unit-center">
+                  <div class="sw-unit-value" id="sw-seconds">00</div>
+                  <div class="sw-unit-label">SECONDS</div>
+                </div>
               </div>
             </div>
-            <div class="sw-controls">
-              <button class="sw-btn sw-btn-start" id="sw-start">▶ Start</button>
-              <button class="sw-btn sw-btn-lap" id="sw-lap" disabled>Lap</button>
-              <button class="sw-btn sw-btn-reset" id="sw-reset" disabled>↺ Reset</button>
+            <div class="sw-controls sw-controls-stopwatch">
+              <button class="sw-btn sw-btn-start" id="sw-start">Start</button>
+              <button class="sw-btn sw-btn-pause" id="sw-pause" disabled>Pause</button>
+              <button class="sw-btn sw-btn-reset" id="sw-reset" disabled>Reset</button>
             </div>
-            <div class="sw-laps" id="sw-laps"></div>
           </div>
 
           <!-- Timer Panel -->
           <div class="chrono-panel hidden" id="panel-timer">
-            <div class="timer-ring-wrap">
-              <svg class="timer-ring-svg" viewBox="0 0 140 140">
-                <defs>
-                  <linearGradient id="timerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#4ade9e"/>
-                    <stop offset="50%" stop-color="#22d3a0"/>
-                    <stop offset="100%" stop-color="#059669"/>
-                  </linearGradient>
-                </defs>
-                <circle class="timer-ring-track" cx="70" cy="70" r="60"/>
-                <circle class="timer-ring-fill" id="timer-ring-fill" cx="70" cy="70" r="60"/>
-              </svg>
-              <div class="timer-ring-center">
-                <div class="timer-display" id="timer-display">05:00</div>
-                <div class="timer-label" id="timer-label">set time</div>
+            <div class="sw-triple-wrap timer-triple-wrap">
+              <div class="sw-unit sw-unit-hours">
+                <svg class="sw-unit-svg" viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="sw-unit-track" cx="60" cy="60" r="52"></circle>
+                  <circle class="sw-unit-progress" id="timer-hours-progress" cx="60" cy="60" r="52"></circle>
+                  <circle class="sw-unit-dot" id="timer-hours-dot" cx="60" cy="8" r="5.6"></circle>
+                </svg>
+                <div class="sw-unit-center">
+                  <div class="sw-unit-value" id="timer-hours">00</div>
+                  <div class="sw-unit-label">HOURS</div>
+                </div>
+              </div>
+
+              <div class="sw-unit sw-unit-minutes">
+                <svg class="sw-unit-svg" viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="sw-unit-track" cx="60" cy="60" r="52"></circle>
+                  <circle class="sw-unit-progress" id="timer-minutes-progress" cx="60" cy="60" r="52"></circle>
+                  <circle class="sw-unit-dot" id="timer-minutes-dot" cx="60" cy="8" r="5.6"></circle>
+                </svg>
+                <div class="sw-unit-center">
+                  <div class="sw-unit-value" id="timer-minutes">05</div>
+                  <div class="sw-unit-label">MINUTES</div>
+                </div>
+              </div>
+
+              <div class="sw-unit sw-unit-seconds">
+                <svg class="sw-unit-svg" viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="sw-unit-track" cx="60" cy="60" r="52"></circle>
+                  <circle class="sw-unit-progress" id="timer-seconds-progress" cx="60" cy="60" r="52"></circle>
+                  <circle class="sw-unit-dot" id="timer-seconds-dot" cx="60" cy="8" r="5.6"></circle>
+                </svg>
+                <div class="sw-unit-center">
+                  <div class="sw-unit-value" id="timer-seconds">00</div>
+                  <div class="sw-unit-label">SECONDS</div>
+                </div>
               </div>
             </div>
             <div class="timer-presets">
@@ -206,9 +244,10 @@
               <button class="timer-preset" data-sec="900">15m</button>
               <button class="timer-preset" data-sec="1800">30m</button>
             </div>
-            <div class="sw-controls">
-              <button class="sw-btn sw-btn-start" id="timer-start">▶ Start</button>
-              <button class="sw-btn sw-btn-reset" id="timer-reset">↺ Reset</button>
+            <div class="sw-controls sw-controls-timer">
+              <button class="sw-btn sw-btn-start" id="timer-start">Start</button>
+              <button class="sw-btn sw-btn-pause" id="timer-pause" disabled>Pause</button>
+              <button class="sw-btn sw-btn-reset" id="timer-reset">Reset</button>
             </div>
           </div>
         </div>
@@ -289,21 +328,49 @@
           </div>
         </div>
 
-        <!-- 🐕 Developer Pet Dog -->
+        <!-- Problem Tracker Saved Problems -->
         <div class="card pet-card" id="pet-card">
           <div class="ca p"></div>
           <div class="ch">
-            <div class="ct">🐕 dev companion</div>
-            <div class="pet-status" id="pet-status">
-              <div class="pet-status-dot" id="pet-dot"></div>
-              <span id="pet-state-text">awake</span>
+            <div class="ct">🧩 problem tracker</div>
+            <div class="problem-head-actions">
+              <button class="problem-connect-btn" id="problem-connect-btn" type="button" title="Connect Problem Tracker extension">connect</button>
+              <div class="pet-status" id="problem-sync-status">
+                <div class="pet-status-dot" id="problem-sync-dot"></div>
+                <span id="problem-sync-text">loading</span>
+              </div>
             </div>
           </div>
-          <div class="pet-scene" id="pet-scene">
-            <canvas id="dog-canvas"></canvas>
-            <div class="pet-bubble hidden" id="pet-bubble">
-              <span id="pet-bubble-text"></span>
-              <div class="pet-bubble-arrow"></div>
+          <div class="pet-scene" id="problem-list-wrap">
+            <div class="problem-tabs" role="tablist" aria-label="Problem lists">
+              <button class="problem-tab active" id="problem-tab-saved" type="button" data-problem-tab="saved" role="tab" aria-selected="true" aria-controls="saved-section">
+                To-Do
+                <span class="problem-tab-count" id="problem-tab-saved-count">0</span>
+              </button>
+              <button class="problem-tab" id="problem-tab-revision" type="button" data-problem-tab="revision" role="tab" aria-selected="false" aria-controls="revision-section">
+                Revision
+                <span class="problem-tab-count problem-tab-count-revision" id="problem-tab-revision-count">0</span>
+              </button>
+            </div>
+
+            <div class="problem-tab-panels">
+              <section class="problem-section" id="saved-section">
+                <div class="problem-section-head">
+                  <div class="problem-section-title">Saved</div>
+                  <div class="problem-section-count" id="problem-saved-count">0</div>
+                </div>
+                <ul class="problem-list" id="problem-list"></ul>
+                <div class="problem-empty hidden" id="problem-empty">No saved problems yet.</div>
+              </section>
+
+              <section class="problem-section problem-section-revision hidden" id="revision-section">
+                <div class="problem-section-head">
+                  <div class="problem-section-title">Revision</div>
+                  <div class="problem-section-count problem-section-count-revision" id="problem-revision-count">0</div>
+                </div>
+                <ul class="problem-list" id="revision-list"></ul>
+                <div class="problem-empty hidden" id="revision-empty">No revision questions yet.</div>
+              </section>
             </div>
           </div>
         </div>
