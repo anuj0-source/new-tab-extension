@@ -179,32 +179,81 @@ const ENGINES = [
 ];
 
 let activeEngine = 0;
-const pillsContainer = $('#epills');
+const engineBadge = $('#eng-badge');
+const enginePopup = $('#engine-popup');
+const enginePopupList = $('#engine-popup-list');
+let engineOptions = [];
 
 ENGINES.forEach((e, i) => {
     const b = document.createElement('button');
-    b.className = 'epill' + (i === 0 ? ' active' : '');
-    b.innerHTML = '<span class="epill-icon">' + e.icon + '</span>' + e.label;
-    b.addEventListener('click', () => setEngine(i));
-    pillsContainer.appendChild(b);
+    b.type = 'button';
+    b.className = 'engine-option';
+    b.style.setProperty('--engine-color', e.color);
+    b.innerHTML = '<span class="engine-option-icon">' + e.icon + '</span><span>' + e.label + '</span>';
+    b.addEventListener('click', () => {
+        setEngine(i);
+        closeEnginePopup();
+        $('#searchInput').focus();
+    });
+    enginePopupList.appendChild(b);
+    engineOptions.push(b);
 });
 
 function setEngine(i) {
     activeEngine = i;
-    $$('.epill').forEach((b, j) => b.classList.toggle('active', j === i));
+    engineOptions.forEach((b, j) => b.classList.toggle('active', j === i));
     $('#eng-name').textContent = ENGINES[i].label;
     $('#eng-active').textContent = ENGINES[i].label.toLowerCase();
     $('#eng-icon').innerHTML = ENGINES[i].icon;
-    // Update search bar focus color
-    document.documentElement.style.setProperty('--search-accent', ENGINES[i].color);
+    // Keep global styling on theme colors; use engine color only for badge/popover accents
+    const searchCard = document.querySelector('.search-card');
+    if (searchCard) searchCard.style.setProperty('--search-engine-accent', ENGINES[i].color);
 }
 
-$('#eng-badge').addEventListener('click', () => setEngine((activeEngine + 1) % ENGINES.length));
+function openEnginePopup() {
+    enginePopup.classList.remove('hidden');
+    engineBadge.classList.add('active');
+    engineBadge.setAttribute('aria-expanded', 'true');
+}
+
+function closeEnginePopup() {
+    enginePopup.classList.add('hidden');
+    engineBadge.classList.remove('active');
+    engineBadge.setAttribute('aria-expanded', 'false');
+}
+
+function toggleEnginePopup() {
+    if (enginePopup.classList.contains('hidden')) {
+        openEnginePopup();
+    } else {
+        closeEnginePopup();
+    }
+}
+
+engineBadge.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleEnginePopup();
+});
+
+engineBadge.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleEnginePopup();
+    }
+});
+
+document.addEventListener('click', (e) => {
+    if (enginePopup.classList.contains('hidden')) return;
+    if (enginePopup.contains(e.target) || engineBadge.contains(e.target)) return;
+    closeEnginePopup();
+});
+
 setEngine(0); // Initialize with icons and color
 
 function doSearch() {
     const q = $('#searchInput').value.trim();
     if (!q) return;
+    closeEnginePopup();
     const url = /^https?:\/\//.test(q) ? q : ENGINES[activeEngine].url + encodeURIComponent(q);
     $('#searchInput').value = "";
     window.open(url, '_self', 'noopener,noreferrer');
@@ -213,8 +262,10 @@ function doSearch() {
 $('#s-go').addEventListener('click', doSearch);
 $('#searchInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') doSearch(); });
 document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeEnginePopup();
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
+        closeEnginePopup();
         $('#searchInput').focus();
         $('#searchInput').select();
     }
